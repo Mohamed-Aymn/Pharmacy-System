@@ -1,6 +1,7 @@
 using OrderService.Domain.Common.Models;
 using OrderService.Domain.Order.ValueObjects;
 
+namespace OrderService.Domain.Order.Entites;
 public class Order : AggregateRoot<OrderId>
 {
     public CustomerId customerId;
