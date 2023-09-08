@@ -1,0 +1,51 @@
+{
+    "name": "OrderService",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "sourceRoot": "src/OrderService/Api",
+    "targets": {
+        "build": {
+            "executor": "@nx-dotnet/core:build",
+            "outputs": [
+                "{workspaceRoot}/dist/apps/OrderService",
+                "{workspaceRoot}/dist/intermediates/apps/OrderService"
+            ],
+            "options": {
+                "configuration": "Debug",
+                "noDependencies": true
+            },
+            "configurations": {
+                "production": {
+                    "configuration": "Release"
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nx-dotnet/core:serve",
+            "options": {
+                "configuration": "Debug"
+            },
+            "configurations": {
+                "production": {
+                    "configuration": "Release"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx-dotnet/core:format"
+        },
+        "swagger": {
+            "executor": "@nx-dotnet/core:update-swagger",
+            "outputs": [
+                "options.output"
+            ],
+            "options": {
+                "output": "generated/OrderService-swagger/swagger.json"
+            },
+            "dependsOn": [
+                "build"
+            ]
+        }
+    },
+    "tags": []
+}

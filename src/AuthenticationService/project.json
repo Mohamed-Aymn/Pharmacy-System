@@ -1,0 +1,51 @@
+{
+    "name": "AuthenticationService",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "sourceRoot": "src/AuthenticationService",
+    "targets": {
+        "build": {
+            "executor": "@nx-dotnet/core:build",
+            "outputs": [
+                "{workspaceRoot}/dist/apps/AuthenticationService",
+                "{workspaceRoot}/dist/intermediates/apps/AuthenticationService"
+            ],
+            "options": {
+                "configuration": "Debug",
+                "noDependencies": true
+            },
+            "configurations": {
+                "production": {
+                    "configuration": "Release"
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nx-dotnet/core:serve",
+            "options": {
+                "configuration": "Debug"
+            },
+            "configurations": {
+                "production": {
+                    "configuration": "Release"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx-dotnet/core:format"
+        },
+        "swagger": {
+            "executor": "@nx-dotnet/core:update-swagger",
+            "outputs": [
+                "options.output"
+            ],
+            "options": {
+                "output": "generated/AuthenticationService-swagger/swagger.json"
+            },
+            "dependsOn": [
+                "build"
+            ]
+        }
+    },
+    "tags": []
+}
