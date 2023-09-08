@@ -1,4 +1,7 @@
+using AuthenticationService.ApiValidation;
+using AuthenticationService.Models;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation.Results;
 
 namespace AuthenticationService.Controllers;
 
@@ -7,9 +10,18 @@ namespace AuthenticationService.Controllers;
 public class AuthenticationController : ControllerBase
 {
     [HttpPost("signup")]
-    public IActionResult Signup()
+    public IActionResult Signup(User user)
     {
         // body validation
+        UserValidator validator = new();
+        ValidationResult results = validator.Validate(user);
+        if (!results.IsValid)
+        {
+            // foreach (var failure in results.Errors)
+            // {
+            // }
+            throw new Exception();
+        }
 
         // check if email exists
 
@@ -23,9 +35,18 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("signin")]
-    public IActionResult Signin()
+    public IActionResult Signin(User user)
     {
         // body validation
+        UserValidator validator = new();
+        ValidationResult results = validator.Validate(user);
+        if (!results.IsValid)
+        {
+            // foreach (var failure in results.Errors)
+            // {
+            // }
+            throw new Exception();
+        }
 
         // check if email exists
 
