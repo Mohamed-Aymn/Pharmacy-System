@@ -2,7 +2,7 @@
     "name": "OrderService",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
-    "sourceRoot": "src/OrderService/Domain",
+    "sourceRoot": "src/OrderService/Api",
     "targets": {
         "build": {
             "executor": "@nx-dotnet/core:build",
@@ -40,7 +40,7 @@
                 "options.output"
             ],
             "options": {
-                "output": "generated/my-api-swagger/swagger.json"
+                "output": "generated/OrderService-swagger/swagger.json"
             },
             "dependsOn": [
                 "build"

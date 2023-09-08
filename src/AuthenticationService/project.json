@@ -40,7 +40,7 @@
                 "options.output"
             ],
             "options": {
-                "output": "generated/my-api-swagger/swagger.json"
+                "output": "generated/AuthenticationService-swagger/swagger.json"
             },
             "dependsOn": [
                 "build"
