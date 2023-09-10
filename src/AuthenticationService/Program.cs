@@ -1,4 +1,6 @@
 using System.Text;
+using AuthenticationService.Models;
+using AuthenticationService.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -6,6 +8,14 @@ var MyConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build(
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// mongodb
+builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("Cluster0"));
+builder.Services.AddSingleton<MongoDBService>();
+
+// logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

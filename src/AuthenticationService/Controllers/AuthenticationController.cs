@@ -2,15 +2,24 @@ using AuthenticationService.ApiValidation;
 using AuthenticationService.Models;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation.Results;
+using AuthenticationService.Services;
 
 namespace AuthenticationService.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : Controller
 {
+    private readonly MongoDBService _mongoDBService;
+
+    public AuthenticationController(MongoDBService mongoDBService)
+    {
+        _mongoDBService = mongoDBService;
+    }
+
+
     [HttpPost("signup")]
-    public IActionResult Signup(User user)
+    public async Task<IActionResult> Signup(User user)
     {
         // body validation
         UserValidator validator = new();
@@ -26,6 +35,7 @@ public class AuthenticationController : ControllerBase
         // check if email exists
 
         // create user
+        await _mongoDBService.CreateAsync(user);
 
         // generate jwt
 
