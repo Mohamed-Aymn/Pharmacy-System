@@ -3,6 +3,7 @@ using AuthenticationService.Models;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation.Results;
 using AuthenticationService.Services;
+using Microsoft.Extensions.Logging;
 
 namespace AuthenticationService.Controllers;
 
@@ -16,7 +17,6 @@ public class AuthenticationController : Controller
     {
         _mongoDBService = mongoDBService;
     }
-
 
     [HttpPost("signup")]
     public async Task<IActionResult> Signup(User user)
@@ -33,7 +33,8 @@ public class AuthenticationController : Controller
         }
 
         // check if email exists
-        if (_mongoDBService.GetByEmail(user.Email!) != null)
+        var duplicateEmailCheck = await _mongoDBService.GetByEmail(user.Email!);
+        if (duplicateEmailCheck != null)
         {
             throw new Exception("something went wrong");
         }
