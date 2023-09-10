@@ -33,6 +33,10 @@ public class AuthenticationController : Controller
         }
 
         // check if email exists
+        if (_mongoDBService.GetByEmail(user.Email!) != null)
+        {
+            throw new Exception("something went wrong");
+        }
 
         // create user
         await _mongoDBService.CreateAsync(user);

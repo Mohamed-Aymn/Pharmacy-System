@@ -8,26 +8,14 @@ namespace AuthenticationService.Services;
 public class MongoDBService
 {
     private readonly IMongoCollection<User> _userCollection;
-    private readonly ILogger _logger;
 
-    public MongoDBService(IOptions<MongoDBSettings> mongoDBSettings,
-        ILogger<MongoDBService> logger
+    public MongoDBService(
     )
     {
-        _logger = logger;
-        // _logger.LogInformation(mongoDBSettings);
         var MyConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-
-
-        // MongoClient client = new(MyConfig.GetValue<string>("MongoDB:ConnectionURI"));
-
-
         var settings = MongoClientSettings.FromConnectionString(MyConfig.GetValue<string>("MongoDB:ConnectionURI"));
-        // Set the ServerApi field of the settings object to Stable API version 1
         settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-        // Create a new client and connect to the server
         var client = new MongoClient(settings);
-        // Send a ping to confirm a successful connection
         IMongoDatabase database = client.GetDatabase(MyConfig.GetValue<string>("MongoDB:DatabaseName"));
         _userCollection = database.GetCollection<User>(MyConfig.GetValue<string>("MongoDB:CollectionName"));
         try
@@ -51,9 +39,17 @@ public class MongoDBService
         });
     }
 
-    public async Task<List<User>> GetAsync()
+    public async Task<List<User>> GetAllAsync()
     {
         return await _userCollection.Find(new BsonDocument()).ToListAsync();
+    }
+
+    public async Task<User> GetByEmail(string email)
+    {
+        var filter = Builders<User>.Filter
+    .Eq(r => r.Name, email);
+
+        return await _userCollection.Find(filter).FirstOrDefaultAsync();
     }
 
     public async Task DeleteAsync(ObjectId id)

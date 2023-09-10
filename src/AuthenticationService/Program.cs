@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // mongodb
-builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("Cluster0"));
 builder.Services.AddSingleton<MongoDBService>();
 
 // logging
