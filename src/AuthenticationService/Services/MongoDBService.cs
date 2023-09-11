@@ -45,9 +45,13 @@ public class MongoDBService
 
     public async Task<User> GetByEmail(string email)
     {
-        var filter = Builders<User>.Filter
-    .Eq(r => r.Name, email);
+        var filter = Builders<User>.Filter.Eq(u => u.Email, email);
+        return await _userCollection.Find(filter).FirstOrDefaultAsync();
+    }
 
+    public async Task<User> GetById(ObjectId id)
+    {
+        var filter = Builders<User>.Filter.Eq(u => u.Id, id);
         return await _userCollection.Find(filter).FirstOrDefaultAsync();
     }
 
