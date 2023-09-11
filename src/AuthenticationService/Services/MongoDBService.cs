@@ -1,5 +1,4 @@
 using AuthenticationService.Models;
-using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

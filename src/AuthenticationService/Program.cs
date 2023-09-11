@@ -17,25 +17,38 @@ builder.Logging.AddConsole();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
-{
-    x.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidIssuer = MyConfig.GetValue<string>("JwtSettings:Issuer"),
-        ValidAudience = MyConfig.GetValue<string>("JwtSettings:Audience"),
-        IssuerSigningKey = new SymmetricSecurityKey
-            (Encoding.UTF8.GetBytes(MyConfig.GetValue<string>("JwtSettings:Audience")!)),
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]!))
+        };
+    });
+// builder.Services.AddAuthentication(x =>
+// {
+//     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+// }).AddJwtBearer(x =>
+// {
+//     x.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         ValidIssuer = MyConfig.GetValue<string>("JwtSettings:Issuer"),
+//         ValidAudience = MyConfig.GetValue<string>("JwtSettings:Audience"),
+//         IssuerSigningKey = new SymmetricSecurityKey
+//             (Encoding.UTF8.GetBytes(MyConfig.GetValue<string>("JwtSettings:Audience")!)),
+//         ValidateIssuer = true,
+//         ValidateAudience = true,
+//         ValidateLifetime = true,
+//         ValidateIssuerSigningKey = true
+//     };
+// });
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
