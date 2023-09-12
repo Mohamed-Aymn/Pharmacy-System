@@ -1,5 +1,6 @@
 using AuthenticationService.Models;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
 namespace AuthenticationService.Services;
@@ -30,12 +31,7 @@ public class MongoDBService
 
     public async Task CreateAsync(User user)
     {
-        await _userCollection.InsertOneAsync(new User
-        {
-            Name = user.Name,
-            Email = user.Email,
-            Password = user.Password
-        });
+        await _userCollection.InsertOneAsync(user);
     }
 
     public async Task<List<User>> GetAllAsync()
@@ -49,13 +45,13 @@ public class MongoDBService
         return await _userCollection.Find(filter).FirstOrDefaultAsync();
     }
 
-    public async Task<User> GetById(ObjectId id)
+    public async Task<User> GetById(string id)
     {
-        var filter = Builders<User>.Filter.Eq(u => u.Id, id);
+        var filter = Builders<User>.Filter.Eq(u => u.Id.ToString(), id);
         return await _userCollection.Find(filter).FirstOrDefaultAsync();
     }
 
-    public async Task DeleteAsync(ObjectId id)
+    public async Task DeleteAsync(string id)
     {
         // get a specific user by using filter method
         FilterDefinition<User> filter = Builders<User>.Filter.Eq("id", id);
@@ -63,9 +59,9 @@ public class MongoDBService
         await _userCollection.DeleteOneAsync(filter);
     }
 
-    public async Task<UpdateResult> UpdateAsync(ObjectId id, User user)
+    public async Task<UpdateResult> UpdateAsync(string id, User user)
     {
-        var filter = Builders<User>.Filter.Eq(u => u.Id, id);
+        var filter = Builders<User>.Filter.Eq(u => u.Id.ToString(), id);
 
         var update = Builders<User>.Update
             .Set(user => user.Name, user.Name)

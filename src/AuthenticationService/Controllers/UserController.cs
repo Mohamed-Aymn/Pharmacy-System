@@ -1,3 +1,4 @@
+using AuthenticationService.Contracts;
 using AuthenticationService.Models;
 using AuthenticationService.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,19 @@ public class UserController : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(ObjectId id, User user)
+    public async Task<IActionResult> UpdateUser(string id, RegisterUserRequest request)
     {
+        User user = new(
+            name: request.Name,
+            email: request.Email,
+            password: request.Password
+        );
         await _mongoDBService.UpdateAsync(id, user);
         return Ok();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteUser(ObjectId id)
+    public async Task<IActionResult> DeleteUser(string id)
     {
         await _mongoDBService.DeleteAsync(id);
         return NoContent();

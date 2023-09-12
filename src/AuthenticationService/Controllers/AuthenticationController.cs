@@ -7,10 +7,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
 using AuthenticationService.Utilities;
-using System.Net;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Services;
-using System.ComponentModel.DataAnnotations;
+using AuthenticationService.Contracts;
 
 namespace AuthenticationService.Controllers;
 
@@ -28,30 +26,32 @@ public class AuthenticationController : Controller
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Signup(User user)
+    public async Task<IActionResult> Signup(RegisterUserRequest request)
     {
         // body validation
-        UserValidator validator = new();
-        FluentValidation.Results.ValidationResult results = validator.Validate(user);
+        RegisterUserValidator validator = new();
+        FluentValidation.Results.ValidationResult results = validator.Validate(request);
         if (!results.IsValid)
         {
-            // foreach (var failure in results.Errors)
-            // {
-            // }
             throw new Exception();
         }
 
         // check if email exists
-        var duplicateEmailCheck = await _mongoDBService.GetByEmail(user.Email!);
+        var duplicateEmailCheck = await _mongoDBService.GetByEmail(request.Email!);
         if (duplicateEmailCheck != null)
         {
             throw new Exception("something went wrong");
         }
 
         // hash password
-        user.Password = PasswordHasher.HashPassword(user.Password!);
+        request.Password = PasswordHasher.HashPassword(request.Password!);
 
         // store user in database (create user)
+        User user = new(
+            name: request.Name,
+            email: request.Email,
+            password: request.Password
+        );
         await _mongoDBService.CreateAsync(user);
 
         // generate jwt
@@ -70,25 +70,22 @@ public class AuthenticationController : Controller
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Signin(User user)
+    public async Task<IActionResult> Signin(SigninRequest request)
     {
         // body validation
-        // UserValidator validator = new();
-        // FluentValidation.Results.ValidationResult results = validator.Validate(user);
-        // if (!results.IsValid)
-        // {
-        // foreach (var failure in results.Errors)
-        // {
-        // }
-        //     throw new Exception();
-        // }
+        SigninValidator validator = new();
+        FluentValidation.Results.ValidationResult results = validator.Validate(request);
+        if (!results.IsValid)
+        {
+            throw new Exception("something went wrong");
+        }
 
         // check if email exists
-        var userData = await _mongoDBService.GetByEmail(user.Email)
+        var userData = await _mongoDBService.GetByEmail(request.Email)
             ?? throw new Exception("something went wrong");
 
         // check if valid password
-        if (!PasswordHasher.ValidatePassword(user.Password, userData.Password!))
+        if (!PasswordHasher.ValidatePassword(request.Password, userData.Password!))
         {
             throw new Exception("something went wrong");
         }
