@@ -1,7 +1,7 @@
 using AuthenticationService.Models;
 using FluentValidation;
 
-namespace AuthenticationService.ApiValidation;
+namespace AuthenticationService.Validators;
 
 public class UserValidator : AbstractValidator<User>
 {

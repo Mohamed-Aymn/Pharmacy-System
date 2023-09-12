@@ -1,4 +1,4 @@
-using AuthenticationService.ApiValidation;
+using AuthenticationService.Validators;
 using AuthenticationService.Models;
 using Microsoft.AspNetCore.Mvc;
 using AuthenticationService.Services;
@@ -7,6 +7,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
 using AuthenticationService.Utilities;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.OpenApi.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace AuthenticationService.Controllers;
 
@@ -23,7 +27,7 @@ public class AuthenticationController : Controller
         _config = config;
     }
 
-    [HttpPost("signup")]
+    [HttpPost("register")]
     public async Task<IActionResult> Signup(User user)
     {
         // body validation
@@ -59,15 +63,14 @@ public class AuthenticationController : Controller
             Expires = DateTime.Now.AddDays(1),
             Path = "/",
             HttpOnly = true,
-            Secure = true
         };
         Response.Cookies.Append("Token", token, cookieOptions);
 
         return Ok();
     }
 
-    [HttpPost("signin")]
-    public async Task<IActionResult> Signin(string email, string password)
+    [HttpPost("login")]
+    public async Task<IActionResult> Signin(User user)
     {
         // body validation
         // UserValidator validator = new();
@@ -81,12 +84,11 @@ public class AuthenticationController : Controller
         // }
 
         // check if email exists
-        var userData = await _mongoDBService.GetByEmail(email)
+        var userData = await _mongoDBService.GetByEmail(user.Email)
             ?? throw new Exception("something went wrong");
 
         // check if valid password
-        var test = PasswordHasher.ValidatePassword(password, userData.Password!);
-        if (!PasswordHasher.ValidatePassword(password, userData.Password!))
+        if (!PasswordHasher.ValidatePassword(user.Password, userData.Password!))
         {
             throw new Exception("something went wrong");
         }
@@ -107,18 +109,43 @@ public class AuthenticationController : Controller
         return Ok();
     }
 
-    [HttpPost("signout")]
+    [Authorize]
+    [HttpPost("logout")]
     public IActionResult Signout()
     {
-        // delete jwt from session
+        Response.Cookies.Delete("Token", new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None,
+            Secure = true
+        });
         return Ok();
     }
 
+    [Authorize]
     [HttpGet("currentuser")]
     public IActionResult CurrentUser()
     {
+        // get token from cookie
+        string token = Request.Cookies["Token"]! ?? throw new Exception("something went wrong");
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var decodedToken = tokenHandler.ReadJwtToken(token);
+
+        string userId = decodedToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value!;
+        string userName = decodedToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value!;
+        string userEmail = decodedToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value!;
+
         // return current user or null
-        return Ok();
+        return Ok(new
+        {
+            currentUser = new
+            {
+                id = userId,
+                name = userName,
+                email = userEmail
+            }
+        });
     }
 
     private string GenerateToken(User user)
