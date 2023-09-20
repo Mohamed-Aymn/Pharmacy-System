@@ -65,3 +65,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+// to use this class in test classes
+public partial class Program { }
