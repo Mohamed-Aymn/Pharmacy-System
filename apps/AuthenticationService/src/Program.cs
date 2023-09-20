@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // mongodb
-builder.Services.AddSingleton<MongoDBService>();
+// builder.Services.AddSingleton<MongoDBService>();
+builder.Services.AddScoped<IMongoDBService, MongoDBService>();
 
 // logging
 builder.Logging.ClearProviders();

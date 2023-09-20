@@ -16,10 +16,10 @@ namespace AuthenticationService.Controllers;
 [Route("api/auth")]
 public class AuthenticationController : Controller
 {
-    private readonly MongoDBService _mongoDBService;
+    private readonly IMongoDBService _mongoDBService;
 
     private readonly IConfiguration _config;
-    public AuthenticationController(MongoDBService mongoDBService, IConfiguration config)
+    public AuthenticationController(IMongoDBService mongoDBService, IConfiguration config)
     {
         _mongoDBService = mongoDBService;
         _config = config;

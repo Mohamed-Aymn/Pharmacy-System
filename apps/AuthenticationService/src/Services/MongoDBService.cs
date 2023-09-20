@@ -1,11 +1,10 @@
 using AuthenticationService.Models;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
 namespace AuthenticationService.Services;
 
-public class MongoDBService
+public class MongoDBService : IMongoDBService
 {
     private readonly IMongoCollection<User> _userCollection;
 
