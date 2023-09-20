@@ -9,6 +9,7 @@ using System.Security.Claims;
 using AuthenticationService.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using AuthenticationService.Contracts;
+using FluentValidation.Results;
 
 namespace AuthenticationService.Controllers;
 
@@ -30,10 +31,10 @@ public class AuthenticationController : Controller
     {
         // body validation
         RegisterUserValidator validator = new();
-        FluentValidation.Results.ValidationResult results = validator.Validate(request);
+        ValidationResult results = validator.Validate(request);
         if (!results.IsValid)
         {
-            throw new Exception();
+            throw new Exception("something went wrong");
         }
 
         // check if email exists
@@ -66,7 +67,7 @@ public class AuthenticationController : Controller
         };
         Response.Cookies.Append("Token", token, cookieOptions);
 
-        return Ok();
+        return Ok("User created successfully");
     }
 
     [HttpPost("login")]

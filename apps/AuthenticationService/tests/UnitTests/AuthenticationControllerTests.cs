@@ -4,6 +4,9 @@ using AuthenticationService.Controllers;
 using AuthenticationService.Models;
 using AuthenticationService.Services;
 using AuthenticationService.UnitTests.Constants;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Moq;
 
@@ -27,22 +30,46 @@ public class AuthenticationControllerTests
     [Fact]
     public async Task AuthenticationController_SignUp_ShouldReturnOkAsync()
     {
-        // arrange
+        /**
+         * 
+         * arragne
+         * 
+         * */
+        // this should be mongodb resopnse
         User user = GetUserData();
+        // configure mongodb service function response
         _mongoDBService.Setup(x => x.CreateAsync(user))
             .Returns(Task.FromResult(user));
-        var authenticationController = new AuthenticationController(_mongoDBService.Object, _config.Object);
+        // pass required parameters to the authentication controller
+        AuthenticationController authenticationController = new(_mongoDBService.Object, _config.Object);
 
-        // act
+        // I have to mock http tokens because I will not be using http request
+        // in this test funtcion
+        var httpContext = new DefaultHttpContext();
+        httpContext.Response.Cookies.Append("Token", "mock-token");
+        authenticationController.ControllerContext = new ControllerContext()
+        {
+            HttpContext = httpContext
+        };
+
+        /**
+         * 
+         * act
+         * 
+         * */
         RegisterUserRequest requestBody = new(
-            UserConstants.Password,
-            UserConstants.Email,
-            UserConstants.Name
+            name: UserConstants.Name,
+            email: UserConstants.Email,
+            password: UserConstants.Password
         );
-        var response = await authenticationController.Signup(requestBody) as HttpResponseMessage;
+        var response = await authenticationController.Signup(requestBody);
 
-        // asert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        /**
+         * 
+         * assert
+         * 
+         * */
+        Assert.Equal(200, (response as IStatusCodeActionResult)!.StatusCode);
     }
 
     private User GetUserData()
