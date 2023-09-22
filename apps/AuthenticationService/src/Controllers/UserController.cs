@@ -1,19 +1,18 @@
 using AuthenticationService.Contracts;
 using AuthenticationService.Models;
-using AuthenticationService.Services;
+using AuthenticationService.Presistence;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace AuthenticationService.Controllers;
 
 [Route("api/users")]
 public class UserController : Controller
 {
-    private readonly MongoDBService _mongoDBService;
+    private readonly IUserRepository _userRepository;
 
-    public UserController(MongoDBService mongoDBService)
+    public UserController(IUserRepository userRepository)
     {
-        _mongoDBService = mongoDBService;
+        _userRepository = userRepository;
     }
 
     [HttpPut("{id}")]
@@ -24,14 +23,14 @@ public class UserController : Controller
             email: request.Email,
             password: request.Password
         );
-        await _mongoDBService.UpdateAsync(id, user);
+        await _userRepository.UpdateAsync(id, user);
         return Ok();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(string id)
     {
-        await _mongoDBService.DeleteAsync(id);
+        await _userRepository.DeleteAsync(id);
         return NoContent();
     }
 

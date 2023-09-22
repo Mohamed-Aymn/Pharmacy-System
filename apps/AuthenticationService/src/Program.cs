@@ -1,16 +1,27 @@
 using System.Text;
-using AuthenticationService.Services;
+using AuthenticationService;
+using AuthenticationService.Presistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 var MyConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 // mongodb
 // builder.Services.AddSingleton<MongoDBService>();
-builder.Services.AddScoped<IMongoDBService, MongoDBService>();
+// builder.Services.AddScoped<IMongoDBService, MongoDBService>();
+builder.Services.AddScoped<IMongoDbContext>(provider =>
+{
+    MongoDbContextSettings contextSettings = new(
+        MyConfig.GetValue<string>("MongoDB:ConnectionURI")!,
+        MyConfig.GetValue<string>("MongoDB:DatabaseName")!
+    );
 
+    return new MongoDbContext(contextSettings);
+});
+builder.Services.AddDependencies();
 // logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
