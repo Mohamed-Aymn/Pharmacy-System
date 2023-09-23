@@ -48,7 +48,7 @@ public class AuthenticationController : Controller
             email: request.Email,
             password: request.Password
         );
-        await _userRepository.CreateAsync(user);
+        await _userRepository.Add(user);
 
         // generate jwt
         var token = TokenGenerator.GenerateToken(user);

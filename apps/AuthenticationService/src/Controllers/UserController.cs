@@ -23,14 +23,14 @@ public class UserController : Controller
             email: request.Email,
             password: request.Password
         );
-        await _userRepository.UpdateAsync(id, user);
+        await _userRepository.Update(user);
         return Ok();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(string id)
     {
-        await _userRepository.DeleteAsync(id);
+        await _userRepository.Delete(id);
         return NoContent();
     }
 

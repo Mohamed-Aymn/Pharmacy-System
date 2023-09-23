@@ -21,7 +21,6 @@ builder.Services.AddScoped<IMongoDbContext>(provider =>
 
     return new MongoDbContext(contextSettings);
 });
-builder.Services.AddRepositories();
 // logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -42,26 +41,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]!))
         };
     });
-// builder.Services.AddAuthentication(x =>
-// {
-//     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-// }).AddJwtBearer(x =>
-// {
-//     x.TokenValidationParameters = new TokenValidationParameters
-//     {
-//         ValidIssuer = MyConfig.GetValue<string>("JwtSettings:Issuer"),
-//         ValidAudience = MyConfig.GetValue<string>("JwtSettings:Audience"),
-//         IssuerSigningKey = new SymmetricSecurityKey
-//             (Encoding.UTF8.GetBytes(MyConfig.GetValue<string>("JwtSettings:Audience")!)),
-//         ValidateIssuer = true,
-//         ValidateAudience = true,
-//         ValidateLifetime = true,
-//         ValidateIssuerSigningKey = true
-//     };
-// });
 builder.Services.AddAuthorization();
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

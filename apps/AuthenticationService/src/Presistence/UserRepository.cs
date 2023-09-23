@@ -12,7 +12,7 @@ public class UserRepository : IUserRepository
     {
         _userCollection = dbContext.UsersCollection;
     }
-    public async Task CreateAsync(User user)
+    public async Task Add(User user)
     {
         await _userCollection.InsertOneAsync(user);
     }
@@ -30,7 +30,7 @@ public class UserRepository : IUserRepository
         var filter = Builders<User>.Filter.Eq(u => u.Id.ToString(), id);
         return await _userCollection.Find(filter).FirstOrDefaultAsync();
     }
-    public async Task DeleteAsync(string id)
+    public async Task Delete(string id)
     {
         // get a specific user by using filter method
         FilterDefinition<User> filter = Builders<User>.Filter.Eq("id", id);
@@ -47,5 +47,10 @@ public class UserRepository : IUserRepository
             .Set(user => user.Password, user.Password);
 
         return await _userCollection.UpdateOneAsync(filter, update);
+    }
+
+    public Task Update(User user)
+    {
+        throw new NotImplementedException();
     }
 }
