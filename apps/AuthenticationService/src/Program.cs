@@ -1,16 +1,26 @@
 using System.Text;
-using AuthenticationService.Services;
+using AuthenticationService;
+using AuthenticationService.Presistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 var MyConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 // mongodb
 // builder.Services.AddSingleton<MongoDBService>();
-builder.Services.AddScoped<IMongoDBService, MongoDBService>();
+// builder.Services.AddScoped<IMongoDBService, MongoDBService>();
+builder.Services.AddScoped<IMongoDbContext>(provider =>
+{
+    MongoDbContextSettings contextSettings = new(
+        MyConfig.GetValue<string>("MongoDB:ConnectionURI")!,
+        MyConfig.GetValue<string>("MongoDB:DatabaseName")!
+    );
 
+    return new MongoDbContext(contextSettings);
+});
 // logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -31,26 +41,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]!))
         };
     });
-// builder.Services.AddAuthentication(x =>
-// {
-//     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-// }).AddJwtBearer(x =>
-// {
-//     x.TokenValidationParameters = new TokenValidationParameters
-//     {
-//         ValidIssuer = MyConfig.GetValue<string>("JwtSettings:Issuer"),
-//         ValidAudience = MyConfig.GetValue<string>("JwtSettings:Audience"),
-//         IssuerSigningKey = new SymmetricSecurityKey
-//             (Encoding.UTF8.GetBytes(MyConfig.GetValue<string>("JwtSettings:Audience")!)),
-//         ValidateIssuer = true,
-//         ValidateAudience = true,
-//         ValidateLifetime = true,
-//         ValidateIssuerSigningKey = true
-//     };
-// });
 builder.Services.AddAuthorization();
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
