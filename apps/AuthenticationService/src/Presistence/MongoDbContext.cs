@@ -6,7 +6,7 @@ namespace AuthenticationService.Presistence
 {
     public interface IMongoDbContext
     {
-
+        IMongoCollection<User> UsersCollection { get; }
     }
 
     public class MongoDbContext : IMongoDbContext

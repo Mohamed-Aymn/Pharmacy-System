@@ -4,16 +4,9 @@ namespace AuthenticationService;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddDependencies(this IServiceCollection services)
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IUserRepository>(provider =>
-        {
-            MongoDbContextSettings settings = new(
-                "asdf",
-                "asdf"
-            );
-            return new UserRepository(new MongoDbContext(settings));
-        });
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

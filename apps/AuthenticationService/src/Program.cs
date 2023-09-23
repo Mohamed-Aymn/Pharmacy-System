@@ -21,7 +21,7 @@ builder.Services.AddScoped<IMongoDbContext>(provider =>
 
     return new MongoDbContext(contextSettings);
 });
-builder.Services.AddDependencies();
+builder.Services.AddRepositories();
 // logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
