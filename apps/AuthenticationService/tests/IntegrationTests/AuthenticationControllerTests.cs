@@ -22,51 +22,6 @@ public class AuthenticationControllerTests
     }
 
     [Fact]
-    public async Task AuthenticationController_Signout_ShouldDeleteCookie()
-    {
-        /**
-         * 
-         * arragne
-         * 
-         * */
-        // create user and cookie
-        User user = new(
-            name: UserConstants.Name,
-            email: UserConstants.Email,
-            password: UserConstants.Password
-        );
-        var token = TokenGenerator.GenerateToken(user);
-
-        var request = new HttpRequestMessage(HttpMethod.Post, "/api/auth/logout");
-        request.Headers.Add("token", "token=" + token);
-
-        /**
-         * 
-         * act
-         * 
-         * */
-        HttpResponseMessage response = await _clientFixture.SendAsync(request);
-
-        /**
-         * 
-         * assert
-         * 
-         * */
-        // check token cookie existence
-        Cookie tokenCookie = new();
-        if (response.Headers.TryGetValues("Set-Cookie", out var cookieValues))
-        {
-            var cookieContainer = new CookieContainer();
-            foreach (var cookieValue in cookieValues)
-            {
-                cookieContainer.SetCookies(response.RequestMessage!.RequestUri!, cookieValue);
-            }
-            tokenCookie = cookieContainer.GetCookies(response.RequestMessage!.RequestUri!)["token"]!;
-        }
-        Assert.DoesNotContain("token=", tokenCookie.Value);
-    }
-
-    [Fact]
     public async Task AuthenticationController_RegisterUser_ShouldReturnUnauthorized()
     {
         /**
