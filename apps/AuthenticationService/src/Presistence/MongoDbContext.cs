@@ -20,16 +20,6 @@ namespace AuthenticationService.Presistence
 
             MongoClient client = new MongoClient(settings);
             _database = client.GetDatabase(contextSettings.DatabaseName);
-
-            try
-            {
-                BsonDocument result = client.GetDatabase("RestaurantSystem").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
-                Console.WriteLine("Successfully connected to MongoDB!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
         }
 
         // db collections

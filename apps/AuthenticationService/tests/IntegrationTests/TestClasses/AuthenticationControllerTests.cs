@@ -1,11 +1,10 @@
-
 using System.Net;
 using System.Net.Http.Json;
 using AuthenticationService.Contracts;
 using AuthenticationService.IntegrationTests.Constants;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace IntegrationsTests;
+namespace IntegrationTests.TestClasses;
 
 public class AuthenticationControllerTests : IClassFixture<Program>
 {
