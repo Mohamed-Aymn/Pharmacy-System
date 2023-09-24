@@ -1,4 +1,4 @@
-namespace AuthenticationService.IntegrationTests.Constants;
+namespace AuthenticationService.Tests.IntegrationTests.Constants;
 
 public static class UserConstants
 {

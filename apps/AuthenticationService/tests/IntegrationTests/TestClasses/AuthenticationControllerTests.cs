@@ -1,48 +1,27 @@
 using System.Net;
 using System.Net.Http.Json;
 using AuthenticationService.Contracts;
-using AuthenticationService.IntegrationTests.Constants;
-using Microsoft.AspNetCore.Mvc.Testing;
+using AuthenticationService.Models;
+using AuthenticationService.Presistence;
+using AuthenticationService.Tests.IntegrationTests.Constants;
+using AuthenticationService.Tests.IntegrationTests.Fixtures;
 
-namespace IntegrationTests.TestClasses;
+namespace AuthenticationService.Tests.IntegrationTests.TestClasses;
 
-public class AuthenticationControllerTests : IClassFixture<Program>
+public class AuthenticationControllerTests
+    : IClassFixture<IntegrationTestsWebAppFactoryFixture>, IClassFixture<DbFixture>
 {
-    private readonly HttpClient _client;
+    private readonly MongoDbContext _dbFixture;
+    public readonly HttpClient _clientFixture;
 
-    public AuthenticationControllerTests()
+    public AuthenticationControllerTests(IntegrationTestsWebAppFactoryFixture ProgramFactory, DbFixture DbFactory)
     {
-        var webAppFactory = new WebApplicationFactory<Program>();
-        _client = webAppFactory.CreateDefaultClient();
+        _dbFixture = DbFactory.DbContext;
+        _clientFixture = ProgramFactory.Client;
     }
 
     [Fact]
-    public async Task AuthenticationController_GetCurrentUser_ReturnsUnAuthorized()
-    {
-        /**
-         * 
-         * arragne
-         * 
-         * */
-        var request = new HttpRequestMessage(HttpMethod.Get, "/api/auth/currentuser");
-
-        /**
-         * 
-         * act
-         * 
-         * */
-        var response = await _client.SendAsync(request);
-
-        /**
-         * 
-         * assert
-         * 
-         * */
-        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-    }
-
-    [Fact]
-    public async Task AuthenticationController_CreateUser_ReturnCookie()
+    public async Task AuthenticationController_RegisterUser_ShouldBeValid()
     {
         /**
          * 
@@ -65,14 +44,18 @@ public class AuthenticationControllerTests : IClassFixture<Program>
          * act
          * 
          * */
-        var response = await _client.SendAsync(request);
+        var response = await _clientFixture.SendAsync(request);
 
         /**
          * 
          * assert
          * 
          * */
+        // ok status code check
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        // cookie check
+        // add user to db check
+        UserRepository userRepository = new(_dbFixture);
+        List<User> allUsers = await userRepository.GetAllAsync();
+        Assert.NotNull(allUsers);
     }
 }

@@ -1,6 +1,6 @@
 using AuthenticationService.Utilities;
 
-namespace UnitTests;
+namespace AuthenticationService.Tests.UnitTests.TestClasses;
 
 public class PasswordHashingTests
 {

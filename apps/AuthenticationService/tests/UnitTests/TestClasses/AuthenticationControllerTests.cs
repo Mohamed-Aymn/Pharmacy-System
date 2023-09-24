@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
 
-namespace UnitTests;
+namespace AuthenticationService.Tests.UnitTests.TestClasses;
 
 public class AuthenticationControllerTests
 {

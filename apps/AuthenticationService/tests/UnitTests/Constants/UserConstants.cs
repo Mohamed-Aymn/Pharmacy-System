@@ -1,6 +1,6 @@
 using MongoDB.Bson;
 
-namespace AuthenticationService.UnitTests.Constants;
+namespace AuthenticationService.Tests.UnitTests.Constants;
 
 public static class UserConstants
 {

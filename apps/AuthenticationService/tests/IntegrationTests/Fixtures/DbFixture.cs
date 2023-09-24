@@ -1,7 +1,7 @@
 using AuthenticationService.Presistence;
 using MongoDB.Driver;
 
-namespace IntegrationTests.Fixtures;
+namespace AuthenticationService.Tests.IntegrationTests.Fixtures;
 
 public class DbFixture : IDisposable
 {
