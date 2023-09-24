@@ -2,13 +2,13 @@ using AuthenticationService.Contracts;
 using AuthenticationService.Controllers;
 using AuthenticationService.Models;
 using AuthenticationService.Presistence;
-using AuthenticationService.UnitTests.Constants;
+using AuthenticationService.Tests.UnitTests.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Moq;
 
-namespace UnitTests;
+namespace AuthenticationService.Tests.UnitTests;
 
 public class AuthenticationControllerTests
 {

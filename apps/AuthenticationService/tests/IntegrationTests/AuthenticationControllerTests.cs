@@ -1,24 +1,28 @@
-
 using System.Net;
 using System.Net.Http.Json;
 using AuthenticationService.Contracts;
-using AuthenticationService.IntegrationTests.Constants;
-using Microsoft.AspNetCore.Mvc.Testing;
+using AuthenticationService.Models;
+using AuthenticationService.Presistence;
+using AuthenticationService.Tests.IntegrationTests.Constants;
+using AuthenticationService.Tests.IntegrationTests.Fixtures;
+using AuthenticationService.Utilities;
 
-namespace IntegrationsTests;
+namespace AuthenticationService.Tests.IntegrationTests;
 
-public class AuthenticationControllerTests : IClassFixture<Program>
+public class AuthenticationControllerTests
+    : IClassFixture<IntegrationTestsWebAppFactoryFixture>, IClassFixture<DbFixture>
 {
-    private readonly HttpClient _client;
+    private readonly MongoDbContext _dbFixture;
+    public readonly HttpClient _clientFixture;
 
-    public AuthenticationControllerTests()
+    public AuthenticationControllerTests(IntegrationTestsWebAppFactoryFixture ProgramFactory, DbFixture DbFactory)
     {
-        var webAppFactory = new WebApplicationFactory<Program>();
-        _client = webAppFactory.CreateDefaultClient();
+        _dbFixture = DbFactory.DbContext;
+        _clientFixture = ProgramFactory.Client;
     }
 
     [Fact]
-    public async Task AuthenticationController_GetCurrentUser_ReturnsUnAuthorized()
+    public async Task AuthenticationController_RegisterUser_ShouldReturnUnauthorized()
     {
         /**
          * 
@@ -32,18 +36,19 @@ public class AuthenticationControllerTests : IClassFixture<Program>
          * act
          * 
          * */
-        var response = await _client.SendAsync(request);
+        HttpResponseMessage response = await _clientFixture.SendAsync(request);
 
         /**
          * 
          * assert
          * 
          * */
+        // ok status code check
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
 
     [Fact]
-    public async Task AuthenticationController_CreateUser_ReturnCookie()
+    public async Task AuthenticationController_RegisterUser_ShouldBeValid()
     {
         /**
          * 
@@ -66,14 +71,32 @@ public class AuthenticationControllerTests : IClassFixture<Program>
          * act
          * 
          * */
-        var response = await _client.SendAsync(request);
+        HttpResponseMessage response = await _clientFixture.SendAsync(request);
 
         /**
          * 
          * assert
          * 
          * */
+        // ok status code check
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        // cookie check
+
+        // add user to db check
+        UserRepository userRepository = new(_dbFixture);
+        List<User> allUsers = await userRepository.GetAllAsync();
+        Assert.NotNull(allUsers);
+
+        // check token cookie existence
+        Cookie tokenCookie = new();
+        if (response.Headers.TryGetValues("Set-Cookie", out var cookieValues))
+        {
+            var cookieContainer = new CookieContainer();
+            foreach (var cookieValue in cookieValues)
+            {
+                cookieContainer.SetCookies(response.RequestMessage!.RequestUri!, cookieValue);
+            }
+            tokenCookie = cookieContainer.GetCookies(response.RequestMessage!.RequestUri!)["token"]!;
+        }
+        Assert.NotNull(tokenCookie);
     }
 }

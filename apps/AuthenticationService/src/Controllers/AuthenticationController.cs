@@ -60,7 +60,7 @@ public class AuthenticationController : Controller
             Path = "/",
             HttpOnly = true,
         };
-        Response.Cookies.Append("Token", token, cookieOptions);
+        Response.Cookies.Append("token", token, cookieOptions);
 
         return Ok("User created successfully");
     }
@@ -70,7 +70,7 @@ public class AuthenticationController : Controller
     {
         // body validation
         SigninValidator validator = new();
-        FluentValidation.Results.ValidationResult results = validator.Validate(request);
+        ValidationResult results = validator.Validate(request);
         if (!results.IsValid)
         {
             throw new Exception("something went wrong");
@@ -97,7 +97,7 @@ public class AuthenticationController : Controller
             HttpOnly = true,
             Secure = true
         };
-        Response.Cookies.Append("Token", token, cookieOptions);
+        Response.Cookies.Append("token", token, cookieOptions);
 
         return Ok();
     }
@@ -106,7 +106,7 @@ public class AuthenticationController : Controller
     [HttpPost("logout")]
     public IActionResult Signout()
     {
-        Response.Cookies.Delete("Token", new CookieOptions
+        Response.Cookies.Delete("token", new CookieOptions
         {
             HttpOnly = true,
             SameSite = SameSiteMode.None,
@@ -120,7 +120,7 @@ public class AuthenticationController : Controller
     public IActionResult CurrentUser()
     {
         // get token from cookie
-        string token = Request.Cookies["Token"]! ?? throw new Exception("something went wrong");
+        string token = Request.Cookies["token"]! ?? throw new Exception("something went wrong");
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var decodedToken = tokenHandler.ReadJwtToken(token);
