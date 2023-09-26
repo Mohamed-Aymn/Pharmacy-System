@@ -12,7 +12,7 @@ public sealed class Order : AggregateRoot<OrderId>
     {
     }
 
-    public string CustomerId { get; set; }
+    public CustomerId CustomerId { get; set; }
     public string Restaurant { get; set; }
     public string DeliveryAddress { get; set; }
     public double Price { get; set; }
