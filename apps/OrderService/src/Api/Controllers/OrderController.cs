@@ -1,6 +1,8 @@
 using FluentValidation.Results;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using OrderService.Application.Exceptions;
+using OrderService.Application.Order.Commands.CreateOrder;
 using OrderService.Contracts;
 using OrderService.Contracts.Order;
 
@@ -17,6 +19,7 @@ public class OrderController : Controller
     [HttpPost]
     public async Task CreateOrder(CreateOrderRequest request)
     {
+        // request validation
         CreateOrderRequestValidatior validator = new();
         ValidationResult results = validator.Validate(request);
         if (!results.IsValid)
@@ -31,5 +34,9 @@ public class OrderController : Controller
             }
             throw new ModelValidationException(errorList);
         }
+
+        // mapping betten order reqeust and order command
+        CreateOrderCommand createOrderCommand = request.Adapt<CreateOrderCommand>();
+        // list, tracking id and order status are still empty
     }
 }

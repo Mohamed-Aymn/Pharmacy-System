@@ -1,5 +1,4 @@
 using FluentValidation;
-using OrderService.Contracts;
 
 namespace OrderService.Contracts.Order;
 
