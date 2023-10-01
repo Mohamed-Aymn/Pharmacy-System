@@ -1,9 +1,9 @@
-using OrderService.Domain.Order;
+using OrderNamespace = OrderService.Domain.Order;
 
 namespace OrderService.Application.Common.Interfaces.Persistence;
 
 public interface IOrderRepository
 {
-    Order? GerOrderById(string id);
-    void Add(Order order);
+    OrderNamespace.Order? GerOrderById(string id);
+    void Add(OrderNamespace.Order order);
 }

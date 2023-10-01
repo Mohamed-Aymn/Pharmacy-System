@@ -14,6 +14,7 @@ public class ModelValidationException : Exception
         }
     }
 
+    public override string Message { get; } = "There exists unvalid attributes in this request";
     public List<ModelAttributesErrors> ModelAttributesErrorsList { get; }
 
     public ModelValidationException(
@@ -30,7 +31,11 @@ public class ModelValidationException : Exception
         List<ModelAttributesErrors> modelAttributesErrorsList)
         : base(message, innerException)
     {
+        ModelAttributesErrorsList = modelAttributesErrorsList;
+    }
 
+    public ModelValidationException(List<ModelAttributesErrors> modelAttributesErrorsList)
+    {
         ModelAttributesErrorsList = modelAttributesErrorsList;
     }
 }
