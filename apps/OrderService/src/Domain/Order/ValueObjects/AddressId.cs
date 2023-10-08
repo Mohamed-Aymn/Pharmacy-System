@@ -2,14 +2,14 @@ using OrderService.Domain.Common.Models;
 
 namespace OrderService.Domain.Order.ValueObjects;
 
-public class StreetAddress : ValueObject
+public class AddressId : ValueObject
 {
     public Guid Id { get; }
-    public String Street { get; set; }
-    public String PostalCode { get; set; }
-    public String City { get; set; }
+    // public String Street { get; set; }
+    // public String PostalCode { get; set; }
+    // public String City { get; set; }
 
-    public StreetAddress() { }
+    public AddressId() { }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

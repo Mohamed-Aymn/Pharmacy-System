@@ -1,5 +1,4 @@
 using AuthenticationService.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace AuthenticationService.Presistence
