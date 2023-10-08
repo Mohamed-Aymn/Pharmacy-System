@@ -1,9 +1,8 @@
-using System.Data.Common;
 using OrderService.Domain.Common.Models;
 
-namespace OrderService.Domain.Order.ValueObjects;
+namespace OrderService.Domain.Common.ValueObjects;
 
-public class ProductId : ValueObject
+public class CustomerId : ValueObject
 {
     public Guid Id { get; set; }
     protected override IEnumerable<object> GetEqualityComponents()

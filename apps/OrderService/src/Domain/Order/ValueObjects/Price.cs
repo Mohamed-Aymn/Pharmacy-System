@@ -1,14 +1,16 @@
-using System.Numerics;
 using OrderService.Domain.Common.Models;
 
 namespace OrderService.Domain.Order.ValueObjects;
 
-public class Money : ValueObject
+public class Price : ValueObject
 {
-    public BigInteger Amount { get; set; }
-    public Money(BigInteger amount)
+    public decimal Amount { get; set; } = 0;
+    public string Currency { get; set; }
+
+    public Price(decimal amount, string currency)
     {
         Amount = amount;
+        Currency = currency;
     }
     protected override IEnumerable<object> GetEqualityComponents()
     {

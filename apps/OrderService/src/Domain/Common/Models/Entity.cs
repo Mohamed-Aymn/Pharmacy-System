@@ -3,22 +3,23 @@ namespace OrderService.Domain.Common.Models;
 public abstract class Entity<TId> : IEquatable<Entity<TId>>
     where TId : notnull
 {
-    private readonly TId id;
+    public TId Id {get; protected set;}
 
     protected Entity(TId id)
     {
-        if (object.Equals(id, default(TId)))
-        {
-            throw new ArgumentException("The ID cannot be the default value.", "id");
-        }
+        // if (object.Equals(id, default(TId)))
+        // {
+        //     throw new ArgumentException("The ID cannot be the default value.", "id");
+        // }
 
-        this.id = id;
+        Id = id;
+        // this.id = id;
     }
 
-    public TId Id
-    {
-        get { return this.id; }
-    }
+    // public TId Id
+    // {
+    //     get { return this.id; }
+    // }
 
     public override bool Equals(object obj)
     {

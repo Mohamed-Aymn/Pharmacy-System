@@ -1,17 +1,17 @@
 using OrderService.Domain.Common.Models;
 
-namespace OrderService.Domain.Order.ValueObjects;
+namespace OrderService.Domain.Address.ValueObjects;
 
-public sealed class OrderId : AggregateRootId<Guid>
+public sealed class AddressId : AggregateRootId<Guid>
 {
     public override Guid Value { get; protected set; }
-    public OrderId(Guid value)
+    public AddressId(Guid value)
     {
         Value = value;
     }
 
-    // this creates new OrderId object
-    public static OrderId CreateUnique()
+    // this creates new AddressId object
+    public static AddressId CreateUnique()
     {
         return new(Guid.NewGuid());
     }

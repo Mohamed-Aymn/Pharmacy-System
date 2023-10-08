@@ -6,6 +6,7 @@ namespace OrderService.Api.Controllers;
 public class ErrorsController : Controller
 {
     [Route("/error")]
+    [HttpGet]
     public IActionResult Error()
     {
         Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
