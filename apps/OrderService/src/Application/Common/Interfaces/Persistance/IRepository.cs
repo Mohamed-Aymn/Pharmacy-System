@@ -1,9 +1,10 @@
 namespace Application.Common.Interfaces.Persistance;
 
-public interface IRepository<T>
+public interface IRepository<T, TId>
 {
-    Task<T> GetById(string id);
-    Task Add(T entity);
-    Task Update(T entity);
-    Task Delete(string id);
+    Task<T?> GetByIdAsync(TId id);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task AddAsync(T entity);
+    Task UpdateAsync(T entity);
+    Task DeleteAsync(TId id);
 }
