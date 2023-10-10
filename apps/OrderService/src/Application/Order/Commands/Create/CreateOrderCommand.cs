@@ -1,14 +1,14 @@
-using OrderService.Domain.Order.Entites;
-using OrderService.Domain.Order.ValueObjects;
+using OrderService.Domain.Common.ValueObjects;
+using OrderService.Domain.Restaurant.Entites;
 
-namespace OrderService.Application.Order.Commands.CreateOrder;
+namespace OrderService.Application.Order.Commands.Create;
 
 public record CreateOrderCommand(
     CustomerId CustomerId,
     string Restaurant,
     string DeliveryAddress,
     double Price,
-    List<OrderItem> Items,
+    List<Item> Items,
     string TrackingId,
     string OrderStatus
 );

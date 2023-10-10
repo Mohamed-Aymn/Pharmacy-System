@@ -1,4 +1,3 @@
-using OrderService.Api.Middlwares;
 using OrderService.Application;
 using OrderService.Infrastructure;
 
@@ -19,8 +18,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseExceptionHandler("/error");
-app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
