@@ -3,7 +3,6 @@ using OrderService.Application.Common.Interfaces.Persistence.Respositories;
 using OrderService.Domain.Address.Entities;
 
 namespace OrderService.Infrastructure.Persistence;
-
 public class AddressRepository : IAddressRepository
 {
     private readonly OrderServiceDbContext _dbContext;

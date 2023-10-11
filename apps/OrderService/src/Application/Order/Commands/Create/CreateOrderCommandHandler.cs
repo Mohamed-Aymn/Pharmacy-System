@@ -1,8 +1,7 @@
-using Mapster;
+using MapsterMapper;
 using MediatR;
 using OrderService.Application.Common.Interfaces.Persistence.Respositories;
 using OrderService.Application.Order.Common;
-using OrderService.Domain.Address.Entities;
 using OrderService.Domain.Common.ValueObjects;
 using OrderService.Domain.Order.ValueObjects;
 using OrderService.Domain.Restaurant.Entites;
@@ -15,14 +14,17 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
     private readonly IAddressRepository _addressRepository;
     private readonly IRestaurantRepository _restaurantRepository;
     private readonly IOrderRepository _orderRepository;
+    private readonly IMapper _mapper;
     public CreateOrderCommandHandler(
         IAddressRepository addressRepository,
         IRestaurantRepository restaurantRepository,
-        IOrderRepository orderRepository)
+        IOrderRepository orderRepository,
+        IMapper mapper)
     {
         _addressRepository = addressRepository;
         _restaurantRepository = restaurantRepository;
         _orderRepository = orderRepository;
+        _mapper = mapper;
     }
 
     public async Task<OrderResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -31,16 +33,16 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
         CustomerId customerId = new();
 
         // search if address id already exists
-        var deliveryAddress = await _addressRepository.GetByIdAsync(request.DeliveryAddress.Id);
+        Domain.Address.Entities.Address? deliveryAddress = await _addressRepository.GetByIdAsync(request.Address.Id);
         if (deliveryAddress! == null!)
         {
-            deliveryAddress = request.DeliveryAddress.Adapt<Address>();
+            deliveryAddress = _mapper.Map<Domain.Address.Entities.Address>(deliveryAddress!);
             await _addressRepository.AddAsync(deliveryAddress);
         }
 
         // calculate price
         Price price = new(0, "USD");
-        Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(request.Restaurant);
+        Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(request.RestaurantId.Value);
         for (int i = 0; i < restaurant!.Items.Count; i++)
         {
             price.Amount += restaurant.Items[i].Price.Amount;

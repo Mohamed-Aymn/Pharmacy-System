@@ -1,9 +1,8 @@
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using OrderService.Contracts;
 using MediatR;
 using OrderService.Application.Order.Commands.Create;
-using OrderService.Infrastructure.Persistence;
+using MapsterMapper;
 
 namespace OrderService.Api.Controllers;
 
@@ -12,16 +11,18 @@ namespace OrderService.Api.Controllers;
 public class OrderController : Controller
 {
     private readonly IMediator _mediator;
-    public OrderController(IMediator mediator)
+    private readonly IMapper _mapper;
+    public OrderController(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateOrder(CreateOrderRequest request)
     {
         // create command
-        CreateOrderCommand command = request.Adapt<CreateOrderCommand>();
+        CreateOrderCommand command = _mapper.Map<CreateOrderCommand>(request);
 
         // send to mediator order creation pipline
         var orderResult = await _mediator.Send(command);

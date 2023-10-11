@@ -17,14 +17,14 @@ public sealed class Order : AggregateRoot<OrderId, Guid>
     {
         OrderStatus = orderStatus;
         Price = price;
-        DeliveryAddress = deliveryAddress;
-        Restaurant = restaurant;
+        AddressId = deliveryAddress;
+        RestaurantId = restaurant;
         CustomerId = customerId;
     }
 
     public CustomerId CustomerId { get; set; }
-    public RestaurantId Restaurant { get; set; }
-    public AddressId DeliveryAddress { get; set; }
+    public RestaurantId RestaurantId { get; set; }
+    public AddressId AddressId { get; set; }
     public Price Price { get; set; }
     public List<ItemId> Items { get; set; } = new();
     public string OrderStatus { get; set; }

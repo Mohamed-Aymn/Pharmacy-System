@@ -1,20 +1,20 @@
 using MediatR;
 using OrderService.Application.Order.Common;
 using OrderService.Domain.Common.ValueObjects;
+using OrderService.Domain.Order.ValueObjects;
 
 namespace OrderService.Application.Order.Commands.Create;
 
 public record CreateOrderCommand(
     CustomerId CustomerId,
-    Guid Restaurant,
-    DeliveryAddress DeliveryAddress,
-    double Price,
+    OrderService.Domain.Restaurant.ValueObjects.RestaurantId RestaurantId,
+    Address Address,
+    Price Price,
     List<Guid> Items,
-    string TrackingId,
     string OrderStatus
 ) : IRequest<OrderResult>;
 
-public record DeliveryAddress(
+public record Address(
     Guid Id,
     string Street,
     int PostalCode,
