@@ -1,8 +1,6 @@
-using Application.Common.Interfaces.Persistance;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Common.Interfaces.Persistence.Respositories;
 using OrderService.Domain.Address.Entities;
-using OrderService.Domain.Order.Entites;
 
 namespace OrderService.Infrastructure.Persistence;
 
@@ -16,7 +14,6 @@ public class AddressRepository : IAddressRepository
 
     public async Task AddAsync(Address entity)
     {
-
         await _dbContext.Address.AddAsync(entity);
     }
 

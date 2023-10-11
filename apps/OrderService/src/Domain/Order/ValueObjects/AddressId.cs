@@ -4,12 +4,11 @@ namespace OrderService.Domain.Order.ValueObjects;
 
 public class AddressId : ValueObject
 {
-    public Guid Id { get; }
-    // public String Street { get; set; }
-    // public String PostalCode { get; set; }
-    // public String City { get; set; }
-
-    public AddressId() { }
+    public Guid Id { get; set; }
+    public AddressId(Guid id)
+    {
+        Id = id;
+    }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

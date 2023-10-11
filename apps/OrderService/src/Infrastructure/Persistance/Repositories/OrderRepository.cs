@@ -19,7 +19,7 @@ public class OrderRepository : IOrderRepository
 
     public async Task DeleteAsync(Guid id)
     {
-        Order? entity = await GetByIdAsync(id);
+        var entity = await GetByIdAsync(id);
         if (entity! != null!)
         {
             _dbContext.Order.Remove(entity);

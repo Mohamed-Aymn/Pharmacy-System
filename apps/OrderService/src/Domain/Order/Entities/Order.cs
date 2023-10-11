@@ -7,12 +7,12 @@ namespace OrderService.Domain.Order.Entites;
 public sealed class Order : AggregateRoot<OrderId, Guid>
 {
     public Order(
-        OrderId id,
         string orderStatus,
         Price price,
-        string deliveryAddress,
+        AddressId deliveryAddress,
         RestaurantId restaurant,
-        CustomerId customerId
+        CustomerId customerId,
+        OrderId id = null!
         ) : base(id ?? OrderId.CreateUnique())
     {
         OrderStatus = orderStatus;
@@ -24,7 +24,7 @@ public sealed class Order : AggregateRoot<OrderId, Guid>
 
     public CustomerId CustomerId { get; set; }
     public RestaurantId Restaurant { get; set; }
-    public string DeliveryAddress { get; set; }
+    public AddressId DeliveryAddress { get; set; }
     public Price Price { get; set; }
     public List<ItemId> Items { get; set; } = new();
     public string OrderStatus { get; set; }

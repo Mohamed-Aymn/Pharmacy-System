@@ -12,10 +12,8 @@ namespace OrderService.Api.Controllers;
 public class OrderController : Controller
 {
     private readonly IMediator _mediator;
-    private readonly OrderServiceDbContext _dbContext;
-    public OrderController(OrderServiceDbContext dbContext, IMediator mediator)
+    public OrderController(IMediator mediator)
     {
-        _dbContext = dbContext;
         _mediator = mediator;
     }
 
