@@ -13,6 +13,6 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
         RuleFor(o => o.Address.PostalCode).NotNull().NotEqual(0);
         RuleFor(o => o.Address.Street).NotNull();
 
-        RuleFor(o => o.Items).Must(i => i.Count is not 0);
+        RuleFor(o => o.Items).Must(i => i.Count is not 0).WithMessage("Order should contain items");
     }
 }

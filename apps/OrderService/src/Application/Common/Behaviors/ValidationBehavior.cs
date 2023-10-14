@@ -1,4 +1,5 @@
 using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
 
 namespace OrderService.Application.Common.Behaviors;
@@ -6,7 +7,6 @@ namespace OrderService.Application.Common.Behaviors;
 public class ValidationBehavior<TRequest, TResponse> :
     IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-    // where TResponse : OrderResult
 {
     private readonly IValidator<TRequest>? _validator;
 
@@ -25,17 +25,10 @@ public class ValidationBehavior<TRequest, TResponse> :
             return await next();
         }
 
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        ValidationResult validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
-        if (!validationResult.IsValid)
-        {
-            // return await next();
-            throw new Exception("validation exception");
-        }
-
-        // var errors = validationResult.Errors;
-
-        // return (dynamic)errors;
-        return await next();
+        return !validationResult.IsValid
+            ? throw new ValidationException(validationResult.Errors)
+            : await next();
     }
 }
