@@ -1,7 +1,15 @@
-namespace OrderService.Contracts;
+namespace OrderService.Application.Order.Commands.Create;
 
 public record CreateOrderRequest(
-    string Restaurant,
-    string DeliveryAddress,
-    double Price
+    Guid RestaurantId,
+    Address Address,
+    List<Guid> Items,
+    string OrderStatus
+);
+
+public record Address(
+    Guid Id,
+    string Street,
+    int PostalCode,
+    string City
 );

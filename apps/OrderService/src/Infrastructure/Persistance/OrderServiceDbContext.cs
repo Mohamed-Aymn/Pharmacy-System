@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using OrderService.Domain.Order;
-using OrderNamespace = OrderService.Domain.Order;
+using OrderService.Domain.Address.Entities;
+using OrderService.Domain.Customer.Entites;
+using OrderService.Domain.Order.Entites;
+using OrderService.Domain.Restaurant.Entites;
 
 namespace OrderService.Infrastructure.Persistence;
 
@@ -10,7 +12,10 @@ public class OrderServiceDbContext : DbContext
     protected readonly IConfiguration Configuration;
 
     // aggregates
-    public DbSet<OrderNamespace.Order> Order { get; set; }
+    public DbSet<Order> Order { get; set; }
+    public DbSet<Address> Address { get; set; }
+    public DbSet<Restaurant> Restaurant { get; set; }
+    public DbSet<Customer> Customer { get; set; }
 
     public OrderServiceDbContext(IConfiguration configuration)
     {

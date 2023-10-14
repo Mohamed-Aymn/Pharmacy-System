@@ -7,26 +7,24 @@ namespace OrderService.Domain.Order.Entites;
 public sealed class Order : AggregateRoot<OrderId, Guid>
 {
     public Order(
-        OrderId id
-        // string orderStatus,
-        // string trackingId,
-        // double price,
-        // string deliveryAddress,
-        // string restaurant,
-        // CustomerId customerId
-        ) : base(id)
+        string orderStatus,
+        Price price,
+        AddressId deliveryAddress,
+        RestaurantId restaurant,
+        CustomerId customerId,
+        OrderId id = null!
+        ) : base(id ?? OrderId.CreateUnique())
     {
-        // OrderStatus = orderStatus;
-        // TrackingId = trackingId;
-        // Price = price;
-        // DeliveryAddress = deliveryAddress;
-        // Restaurant = restaurant;
-        // CustomerId = customerId;
+        OrderStatus = orderStatus;
+        Price = price;
+        AddressId = deliveryAddress;
+        RestaurantId = restaurant;
+        CustomerId = customerId;
     }
 
     public CustomerId CustomerId { get; set; }
-    public RestaurantId Restaurant { get; set; }
-    public string DeliveryAddress { get; set; }
+    public RestaurantId RestaurantId { get; set; }
+    public AddressId AddressId { get; set; }
     public Price Price { get; set; }
     public List<ItemId> Items { get; set; } = new();
     public string OrderStatus { get; set; }
