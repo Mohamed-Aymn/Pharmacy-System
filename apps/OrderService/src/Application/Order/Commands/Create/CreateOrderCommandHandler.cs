@@ -42,7 +42,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
 
         // calculate price
         Price price = new(0, "USD");
-        Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(request.RestaurantId.Value);
+        Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(request.RestaurantId);
         for (int i = 0; i < restaurant!.Items.Count; i++)
         {
             price.Amount += restaurant.Items[i].Price.Amount;

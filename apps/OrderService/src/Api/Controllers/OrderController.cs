@@ -1,4 +1,3 @@
-using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using OrderService.Application.Order.Commands.Create;
@@ -19,13 +18,14 @@ public class OrderController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateOrder(CreateOrderRequest request)
+    public async Task<IActionResult> CreateOrder(CreateOrderRequest request, CancellationToken cancellationToken)
     {
         // create command
         CreateOrderCommand command = _mapper.Map<CreateOrderCommand>(request);
 
         // send to mediator order creation pipline
-        var orderResult = await _mediator.Send(command);
+        await _mediator.Send(command, cancellationToken);
+        // var orderResult = await _mediator.Send(command, cancellationToken);
 
         // return Ok or Problem
         return Ok("Order created successfully");

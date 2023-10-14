@@ -10,7 +10,7 @@ public class OrderMappingConfig : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<CreateOrderRequest, CreateOrderCommand>()
-            .Map(dest => dest.RestaurantId, src => new RestaurantNamespace.RestaurantId(src.RestaurantId))
+            .Map(dest => dest.RestaurantId, src => src.RestaurantId)
             .Map(dest => dest.Address, src => src.Address);
     }
 }
