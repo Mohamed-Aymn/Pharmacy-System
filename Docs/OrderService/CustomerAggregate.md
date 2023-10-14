@@ -9,4 +9,7 @@
 
 # SQL mapping
 
-- customer (id, addresses)
+- customer (
+  id PK UUID unique,
+  addresses UUID
+  )

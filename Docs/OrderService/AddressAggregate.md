@@ -12,4 +12,10 @@
 
 # SQL mapping
 
-address (id, customer_id, street, postal_code, city)
+address (
+id PK unique UUID,
+customer_id UUID,
+street string,
+postal_code int,
+city string
+)

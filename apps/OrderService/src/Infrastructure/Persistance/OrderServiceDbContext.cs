@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OrderService.Domain.Address.Entities;
 using OrderService.Domain.Customer.Entites;
+using OrderService.Domain.Item.Entites;
 using OrderService.Domain.Order.Entites;
 using OrderService.Domain.Restaurant.Entites;
 
@@ -16,6 +17,7 @@ public class OrderServiceDbContext : DbContext
     public DbSet<Address> Address { get; set; }
     public DbSet<Restaurant> Restaurant { get; set; }
     public DbSet<Customer> Customer { get; set; }
+    public DbSet<Item> Item { get; set; }
 
     public OrderServiceDbContext(IConfiguration configuration)
     {

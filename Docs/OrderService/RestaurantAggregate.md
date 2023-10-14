@@ -3,16 +3,7 @@
 ```json
 {
   "id": "0000",
-  "items": [
-    {
-      "id": "0000",
-      "name": "item_name",
-      "price": {
-        "amount": 1000,
-        "currency": "USD"
-      }
-    }
-  ],
+  "items": ["0000"],
   "active": true
 }
 ```
@@ -22,16 +13,6 @@
 ```json
 {
   "id": "0000",
-  "items": [
-    {
-      "id": "0000",
-      "name": "item_name",
-      "price": {
-        "amount": 1000,
-        "currency": "USD"
-      }
-    }
-  ],
   "active": true
 }
 ```
@@ -59,5 +40,7 @@ Note: This is a the rich json response structure instead of providing raw IDs.
 
 ## SQL mapping
 
-- restaurant (id, is_active)
-- items (id, restaurant_id, name, price, currency)
+- restaurant (
+  id PK UUID unique,
+  is_active bool
+  )

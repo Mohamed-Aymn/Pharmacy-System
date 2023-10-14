@@ -1,20 +1,21 @@
+using Application.Common.Interfaces.Persistance;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Common.Interfaces.Persistence.Respositories;
-using OrderService.Domain.Restaurant.Entites;
+using OrderService.Domain.Item.Entites;
 
 namespace OrderService.Infrastructure.Persistence;
 
-public class RestaurantRepository : IRestaurantRepository
+public class ItemRepository : IItemRepository
 {
     private readonly OrderServiceDbContext _dbContext;
-    public RestaurantRepository(OrderServiceDbContext dbContext)
+    public ItemRepository(OrderServiceDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task AddAsync(Restaurant entity)
+    public async Task AddAsync(Item entity)
     {
-        await _dbContext.Restaurant.AddAsync(entity);
+        await _dbContext.Item.AddAsync(entity);
     }
 
     public async Task DeleteAsync(Guid id)
@@ -22,21 +23,21 @@ public class RestaurantRepository : IRestaurantRepository
         var entity = await GetByIdAsync(id);
         if (entity! != null!)
         {
-            _dbContext.Restaurant.Remove(entity);
+            _dbContext.Item.Remove(entity);
         }
     }
 
-    public async Task<IEnumerable<Restaurant>> GetAllAsync()
+    public async Task<IEnumerable<Item>> GetAllAsync()
     {
-        return await _dbContext.Restaurant.ToListAsync();
+        return await _dbContext.Item.ToListAsync();
     }
 
-    public async Task<Restaurant?> GetByIdAsync(Guid id)
+    public async Task<Item?> GetByIdAsync(Guid id)
     {
-        return await _dbContext.Restaurant.FindAsync(id);
+        return await _dbContext.Item.FindAsync(id);
     }
 
-    public async Task UpdateAsync(Restaurant entity)
+    public async Task UpdateAsync(Item entity)
     {
         var existingEntity = await GetByIdAsync(entity.Id.Value);
         if (existingEntity! != null!)

@@ -9,7 +9,7 @@ public sealed class Order : AggregateRoot<OrderId, Guid>
     public Order(
         string orderStatus,
         Price price,
-        AddressId deliveryAddress,
+        AddressId addressId,
         RestaurantId restaurant,
         CustomerId customerId,
         OrderId id = null!
@@ -17,7 +17,7 @@ public sealed class Order : AggregateRoot<OrderId, Guid>
     {
         OrderStatus = orderStatus;
         Price = price;
-        AddressId = deliveryAddress;
+        AddressId = addressId;
         RestaurantId = restaurant;
         CustomerId = customerId;
     }

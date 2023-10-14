@@ -1,6 +1,6 @@
 using OrderService.Domain.Common.Models;
 
-namespace OrderService.Domain.Restaurant.ValueObjects;
+namespace OrderService.Domain.Common.ValueObjects;
 
 public class Price : ValueObject
 {

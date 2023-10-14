@@ -1,8 +1,6 @@
-using Application.Common.Interfaces.Persistance;
 using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Common.Interfaces.Persistence.Respositories;
 using OrderService.Domain.Customer.Entites;
-using OrderService.Domain.Order.Entites;
 
 namespace OrderService.Infrastructure.Persistence;
 

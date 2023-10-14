@@ -42,17 +42,13 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
 
         // calculate price
         Price price = new(0, "USD");
-        Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(request.RestaurantId);
-        for (int i = 0; i < restaurant!.Items.Count; i++)
-        {
-            price.Amount += restaurant.Items[i].Price.Amount;
-        }
 
         // create order (generate unique id & presist in database)
+        Restaurant? restaurant = await _restaurantRepository.GetByIdAsync(request.RestaurantId);
         OrderNamespace.Order order = new(
             orderStatus: "new",
             price: price,
-            deliveryAddress: new AddressId(deliveryAddress.Id.Value),
+            addressId: new AddressId(deliveryAddress.Id.Value),
             restaurant: new RestaurantId(restaurant.Id.Value),
             customerId: customerId);
         await _orderRepository.AddAsync(order);

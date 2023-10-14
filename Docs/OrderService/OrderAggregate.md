@@ -7,7 +7,7 @@
   "id": "000000000-0000000-00000000000-0000000000",
   "customerId": "000000",
   "restaurantId": "000000",
-  "deliveryAddress": "00000",
+  "deliveryAddressId": "00000",
   "price": {
     "amount": 1000,
     "currency": "USD"
@@ -82,4 +82,15 @@ public record CreateOrderCommand(
 
 # SQL mapping
 
-- orders (id, customer_id, restaurant_id, delivery_address, price, currency, tracking_id, order_status, failure_messages, items)
+- orders (
+  id PK unique,
+  customer_id UUID,
+  restaurant_id UUID,
+  delivery_address_id UUID,
+  price DECIMAL,
+  currency string,
+  tracking_id UUID,
+  order_status string,
+  failure_messages text[],
+  items UUID[]
+  )
