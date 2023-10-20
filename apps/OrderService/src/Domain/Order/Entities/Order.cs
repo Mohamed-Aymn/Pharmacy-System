@@ -29,4 +29,6 @@ public sealed class Order : AggregateRoot<OrderId, Guid>
     public List<ItemId> Items { get; set; } = new();
     public string OrderStatus { get; set; }
     public List<string> FailureMessages { get; set; } = new();
+    public DateTime CreatedDateTime { get; set; }
+    public DateTime UpdatedDateTime { get; set; }
 }

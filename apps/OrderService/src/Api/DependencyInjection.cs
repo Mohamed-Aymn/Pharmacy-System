@@ -1,6 +1,7 @@
 using System.Reflection;
 using Mapster;
 using MapsterMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OrderService.Application;
 

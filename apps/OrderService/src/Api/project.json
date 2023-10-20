@@ -7,8 +7,7 @@
         "build": {
             "executor": "@nx-dotnet/core:build",
             "outputs": [
-                "{workspaceRoot}/dist/apps/OrderService",
-                "{workspaceRoot}/dist/intermediates/apps/OrderService"
+                "./"
             ],
             "options": {
                 "configuration": "Debug",

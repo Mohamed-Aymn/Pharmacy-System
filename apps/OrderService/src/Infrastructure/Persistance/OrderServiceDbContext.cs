@@ -12,13 +12,6 @@ public class OrderServiceDbContext : DbContext
 {
     protected readonly IConfiguration Configuration;
 
-    // aggregates
-    public DbSet<Order> Order { get; set; }
-    public DbSet<Address> Address { get; set; }
-    public DbSet<Restaurant> Restaurant { get; set; }
-    public DbSet<Customer> Customer { get; set; }
-    public DbSet<Item> Item { get; set; }
-
     public OrderServiceDbContext(IConfiguration configuration)
     {
         Configuration = configuration;
@@ -30,10 +23,19 @@ public class OrderServiceDbContext : DbContext
         options.UseNpgsql(Configuration.GetConnectionString("PgConnectionString"));
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderServiceDbContext).Assembly);
+    // protected override void OnModelCreating(ModelBuilder modelBuilder)
+    // {
+    //     modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderServiceDbContext).Assembly);
 
-        base.OnModelCreating(modelBuilder);
-    }
+    //     base.OnModelCreating(modelBuilder);
+    // }
+
+    // aggregates
+    public DbSet<Order> Order { get; set; }
+    public DbSet<Address> Address { get; set; }
+    public DbSet<Restaurant> Restaurant { get; set; }
+    public DbSet<Customer> Customer { get; set; }
+    public DbSet<Item> Item { get; set; }
+
+
 }
