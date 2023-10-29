@@ -6,8 +6,14 @@ namespace OrderService.Domain.Restaurant.Entites;
 
 public class Restaurant : AggregateRoot<RestaurantId, Guid>
 {
-    public Restaurant(RestaurantId id) : base(id)
+    public Restaurant(
+        List<ItemId> items, 
+        bool active,
+        RestaurantId id = null!
+        ) : base(id ?? new RestaurantId(Guid.NewGuid()))
     {
+        Items = items;
+        Active = active;
     }
     public List<ItemId> Items { set; get; }
     public bool Active { set; get; }
