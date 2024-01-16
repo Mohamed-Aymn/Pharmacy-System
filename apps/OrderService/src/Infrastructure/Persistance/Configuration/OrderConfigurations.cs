@@ -44,7 +44,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
                 value => new AddressId(value)
             );
 
-        // items is note handled yet
+        // items are not handled yet
 
         builder.OwnsOne(o => o.Price); // as price contains to columns in the database
     }

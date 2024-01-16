@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using OrderService.Application.Common.Interfaces.Persistence.Respositories;
 using OrderService.Infrastructure.Persistence;
@@ -15,7 +17,14 @@ public static class DependencyInjection
         services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         // db context
-        services.AddDbContext<OrderServiceDbContext>();
+        // services.AddDbContext<OrderServiceDbContext>();
+        services.AddDbContext<OrderServiceDbContext>(options =>
+        {
+            options.UseNpgsql("Host=localhost; Database=order_service; Username=postgres; Password=postgres8*");
+        });
+        
+        services.AddScoped<OrderServiceDbContextFactory>();
+
 
         return services;
     }

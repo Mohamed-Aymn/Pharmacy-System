@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using OrderService.Domain.Address.Entities;
 using OrderService.Domain.Customer.Entites;
 using OrderService.Domain.Item.Entites;
@@ -10,25 +9,15 @@ namespace OrderService.Infrastructure.Persistence;
 
 public class OrderServiceDbContext : DbContext
 {
-    protected readonly IConfiguration Configuration;
-
-    public OrderServiceDbContext(IConfiguration configuration)
+    public OrderServiceDbContext(DbContextOptions<OrderServiceDbContext> options) : base(options)
     {
-        Configuration = configuration;
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // connect with connection string
-        options.UseNpgsql(Configuration.GetConnectionString("PgConnectionString"));
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderServiceDbContext).Assembly);
+        base.OnModelCreating(modelBuilder);
     }
-
-    // protected override void OnModelCreating(ModelBuilder modelBuilder)
-    // {
-    //     modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderServiceDbContext).Assembly);
-
-    //     base.OnModelCreating(modelBuilder);
-    // }
 
     // aggregates
     public DbSet<Order> Order { get; set; }
@@ -36,6 +25,4 @@ public class OrderServiceDbContext : DbContext
     public DbSet<Restaurant> Restaurant { get; set; }
     public DbSet<Customer> Customer { get; set; }
     public DbSet<Item> Item { get; set; }
-
-
 }

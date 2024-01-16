@@ -6,12 +6,22 @@ namespace OrderService.Domain.Address.Entities;
 
 public sealed class Address : AggregateRoot<AddressId, Guid>
 {
-    public Address(AddressId id = null!) : base(id ?? AddressId.CreateUnique())
+    public Address(
+        CustomerId customerId,
+        string street,
+        int postalCode,
+        string city,
+        AddressId id = null!
+        ) : base(id ?? AddressId.CreateUnique())
     {
+        CustomerId = customerId;
+        Street = street;
+        PostalCode = postalCode;
+        City = city;
     }
 
     public CustomerId CustomerId { get; set; }
-    public String Street { get; set; }
+    public string Street { get; set; }
     public int PostalCode { get; set; }
-    public String City { get; set; }
+    public string City { get; set; }
 }

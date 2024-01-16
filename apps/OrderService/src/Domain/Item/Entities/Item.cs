@@ -6,8 +6,14 @@ namespace OrderService.Domain.Item.Entites;
 
 public class Item : AggregateRoot<ItemNamespace.ItemId, Guid>
 {
-    public Item(ItemNamespace.ItemId id) : base(id)
+    public Item(
+        string name,
+        Price price,
+        ItemNamespace.ItemId id = null!
+        ) : base(id ?? new ItemNamespace.ItemId(Guid.NewGuid()))
     {
+        Name = name;
+        Price = price;
     }
     public string Name { get; set; }
     public Price Price { get; set; }
