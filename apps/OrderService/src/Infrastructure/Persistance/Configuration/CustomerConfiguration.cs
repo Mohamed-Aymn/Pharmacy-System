@@ -22,6 +22,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasConversion(
                 id => id.Value,
                 value => new Domain.Customer.ValueObjects.CustomerId(value) // conversion to be used in the applicaiton
+
             );
 
         // addresses list is not defined here yet
