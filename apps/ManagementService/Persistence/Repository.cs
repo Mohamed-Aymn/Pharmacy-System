@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ManagementService.Persistence;
 
-public class Repository<Model, Tid> where Model : class
+public class Repository<Model, Tid> : IRepository<Model, Tid> where Model : class
 {
   private readonly AppDbContext _context;
   public Repository(AppDbContext context)

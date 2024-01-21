@@ -9,20 +9,21 @@ namespace ManagementService.ControllersPipelineHandlers.Manager;
 public class CreateOrderCommandHandler : IRequestHandler<CreateManagerDTO, CreateManagerResponse>
 {
   private readonly IMapper _mapper;
-  private readonly Repository<ManagementService.Models.Manager, string> _managerRepository;
-  public CreateOrderCommandHandler(IMapper mapper, Repository<Models.Manager, string> managerRepository)
+  private readonly IRepository<Models.Manager, string> _managerRepository;
+  public CreateOrderCommandHandler(IMapper mapper, IRepository<Models.Manager, string> managerRepository)
   {
     _mapper = mapper;
     _managerRepository = managerRepository;
   }
 
-  public Task<CreateManagerResponse> Handle(CreateManagerDTO request, CancellationToken cancellationToken)
+  public Task<CreateManagerResponse> Handle(CreateManagerDTO createManagerDTO, CancellationToken cancellationToken)
   {
-    ManagementService.Models.Manager manager = new(
-        request.Name,
-        request.PhoneNumber,
-        request.Email);
+    Models.Manager manager = new(
+        createManagerDTO.Name,
+        createManagerDTO.PhoneNumber,
+        createManagerDTO.Email);
     _managerRepository.Add(manager);
+    _managerRepository.SaveChangesAsync();
 
     return Task.FromResult(new CreateManagerResponse(manager.Name));
   }

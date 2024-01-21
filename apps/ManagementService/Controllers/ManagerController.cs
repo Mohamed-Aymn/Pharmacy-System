@@ -26,9 +26,10 @@ public class ManagerController : ControllerBase
   [HttpPost(Name = "CreateManager")]
   public async Task<IActionResult> Create(CreateManagerRequest request, CancellationToken cancellationToken)
   {
-    var createManagerData = _mapper.Map<CreateManagerDTO>(request);
+    var createManagerDTO = _mapper.Map<CreateManagerDTO>(request);
 
-    var result = await _mediator.Send(createManagerData, cancellationToken);
+    // var result = await _mediator.Send(createManagerDTO, cancellationToken);
+    var result = await _mediator.Send(createManagerDTO, cancellationToken);
 
     return Ok(result.Message);
   }

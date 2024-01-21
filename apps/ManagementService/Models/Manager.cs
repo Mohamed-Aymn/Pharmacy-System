@@ -2,7 +2,7 @@ namespace ManagementService.Models;
 
 public class Manager
 {
-  public Manager(string name, int phoneNumber, string email)
+  public Manager(string name, string phoneNumber, string email)
   {
     Name = name;
     PhoneNumber = phoneNumber;
@@ -10,6 +10,6 @@ public class Manager
   }
 
   public string Name { get; set; }
-  public int PhoneNumber { get; set; }
+  public string PhoneNumber { get; set; }
   public string Email { get; set; }
 }
