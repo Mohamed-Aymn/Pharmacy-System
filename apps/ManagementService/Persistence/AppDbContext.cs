@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 // using ManagementService.EntityMapping;
 using ManagementService.Models;
+using ManagementService.Persistence.Configuration;
 
 namespace ManagementService.Persistence;
 
@@ -16,6 +17,11 @@ public class AppDbContext : DbContext
   // public DbSet<Employee> Employees { get; set; }
   // public DbSet<Company> Companies { get; set; }
 
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    modelBuilder
+        .ApplyConfiguration(new ManagerConfiguration());
+  }
   // protected override void OnModelCreating(ModelBuilder modelBuilder)
   // {
   // modelBuilder
