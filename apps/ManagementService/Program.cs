@@ -1,4 +1,6 @@
-using ManagementService;
+using ManagementService.ControllersPipelineHandlers;
+using ManagementService.Persistence;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(dbConnectionString));
+
+builder.Services.AddScoped(
+            typeof(IPipelineBehavior<,>),
+            typeof(ValidationBehavior<,>));
+// builder.Services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+
 
 var app = builder.Build();
 
