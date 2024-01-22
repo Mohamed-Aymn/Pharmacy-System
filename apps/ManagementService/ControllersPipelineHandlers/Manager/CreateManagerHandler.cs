@@ -1,16 +1,15 @@
 using MapsterMapper;
 using MediatR;
 using ManagementService.Persistence;
-using ManagementService.Models;
 using ManagementService.Contracts.Manager.Create;
 
 namespace ManagementService.ControllersPipelineHandlers.Manager;
 
-public class CreateOrderCommandHandler : IRequestHandler<CreateManagerDTO, CreateManagerResponse>
+public class CreateManagerHandler : IRequestHandler<CreateManagerDTO, CreateManagerResponse>
 {
   private readonly IMapper _mapper;
   private readonly IRepository<Models.Manager, string> _managerRepository;
-  public CreateOrderCommandHandler(IMapper mapper, IRepository<Models.Manager, string> managerRepository)
+  public CreateManagerHandler(IMapper mapper, IRepository<Models.Manager, string> managerRepository)
   {
     _mapper = mapper;
     _managerRepository = managerRepository;
