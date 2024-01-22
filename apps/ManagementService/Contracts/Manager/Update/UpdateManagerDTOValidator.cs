@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace ManagementService.Contracts.Manager.Create;
+namespace ManagementService.Contracts.Manager.Update;
 
-public class CreateManagerValidator : AbstractValidator<CreateManagerDTO>
+public class UpdateManagerValidator : AbstractValidator<UpdateManagerDTO>
 {
-  public CreateManagerValidator()
+  public UpdateManagerValidator()
   {
     RuleFor(M => M.Name).NotNull();
     RuleFor(M => M.PhoneNumber).NotNull().Must(i => i.Length is 11).WithMessage("Phone number should be 11 digits");

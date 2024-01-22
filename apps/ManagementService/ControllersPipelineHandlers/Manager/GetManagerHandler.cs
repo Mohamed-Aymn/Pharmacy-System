@@ -17,16 +17,7 @@ public class GetManagerHandler : IRequestHandler<GetManagerRequest, IEnumerable<
 
   public async Task<IEnumerable<GetManagerResponse>> Handle(GetManagerRequest request, CancellationToken cancellationToken)
   {
-    // var managers = await _managerRepository.GetAllAsync();
-    // return (IEnumerable<GetManagerResponse>)_mapper.Map<GetManagerResponse>(managers);
-
-
-
     var managers = await _managerRepository.GetAllAsync();
-
-    // Map each Manager object to GetManagerResponse
-    var response = managers.Select(manager => _mapper.Map<GetManagerResponse>(manager));
-
-    return response;
+    return managers.Select(manager => _mapper.Map<GetManagerResponse>(manager));
   }
 }

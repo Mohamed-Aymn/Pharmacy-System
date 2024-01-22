@@ -1,5 +1,6 @@
 using ManagementService.Contracts.Manager.Create;
 using ManagementService.Contracts.Manager.Get;
+using ManagementService.Contracts.Manager.Update;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ManagementService.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]s")]
 public class ManagerController : ControllerBase
 {
   private readonly IMediator _mediator;
@@ -31,8 +32,17 @@ public class ManagerController : ControllerBase
   {
     var createManagerDTO = _mapper.Map<CreateManagerDTO>(request);
 
-    // var result = await _mediator.Send(createManagerDTO, cancellationToken);
     var result = await _mediator.Send(createManagerDTO, cancellationToken);
+
+    return Ok(result.Message);
+  }
+
+  [HttpPut(Name = "CreateManager")]
+  public async Task<IActionResult> Put(UpdateManagerRequest request, CancellationToken cancellationToken)
+  {
+    var updateManagerDTO = _mapper.Map<UpdateManagerDTO>(request);
+
+    var result = await _mediator.Send(updateManagerDTO, cancellationToken);
 
     return Ok(result.Message);
   }
