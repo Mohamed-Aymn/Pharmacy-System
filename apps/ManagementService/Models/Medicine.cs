@@ -4,7 +4,7 @@ namespace ManagementService.Models;
 
 public class Medicine
 {
-  public Medicine(string tradeName, int concentration, string barCode, MedicineType medicineType)
+  public Medicine(string tradeName, string concentration, string barCode, MedicineType medicineType)
   {
     Name = $"{tradeName} {concentration}";
     BarCode = barCode;
