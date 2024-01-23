@@ -4,7 +4,7 @@ namespace ManagementService.Models;
 
 public class Employee
 {
-  public Employee(string name, int phoneNumber, string email, EmployeeRole role, string branchName)
+  public Employee(string name, string phoneNumber, string email, EmployeeRole role, string branchName)
   {
     Name = name;
     PhoneNumber = phoneNumber;
@@ -14,7 +14,7 @@ public class Employee
   }
 
   public string Name { get; set; }
-  public int PhoneNumber { get; set; }
+  public string PhoneNumber { get; set; }
   public string Email { get; set; }
   public EmployeeRole Role { get; set; }
   public string BranchName { get; set; }
