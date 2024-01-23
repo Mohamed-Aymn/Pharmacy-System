@@ -1,1 +1,1 @@
-Restaurant System
+Pharmacy System
