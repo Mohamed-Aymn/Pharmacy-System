@@ -33,15 +33,9 @@ public class ManagerController : ControllerBase
   {
     var createManagerDTO = _mapper.Map<CreateManagerDTO>(request);
 
-    // try
-    // {
     var result = await _mediator.Send(createManagerDTO, cancellationToken);
+
     return Ok(result.Message);
-    // }
-    // catch (FluentValidation.ValidationException e)
-    // {
-    // return Problem(detail: e.Message, statusCode: 400);
-    // }
   }
 
   [HttpPut(Name = "CreateManager")]
