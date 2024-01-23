@@ -42,5 +42,22 @@ public class ValidationExceptionFilter : IExceptionFilter
 
       context.ExceptionHandled = true;
     }
+    else
+    {
+      var ProblemDetails = new ProblemDetails
+      {
+        Title = "Internal server error",
+        Status = 500,
+      };
+      ProblemDetails.Extensions["traceId"] = Guid.NewGuid();
+
+      context.Result = new ObjectResult(ProblemDetails)
+      {
+        StatusCode = ProblemDetails.Status,
+        ContentTypes = { "application/problem+json" },
+      };
+
+      context.ExceptionHandled = true;
+    }
   }
 }

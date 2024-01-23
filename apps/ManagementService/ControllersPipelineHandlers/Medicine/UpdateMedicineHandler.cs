@@ -16,13 +16,15 @@ public class UpdateMedicineHandler : IRequestHandler<UpdateMedicineDTO, UpdateMe
   {
     var existingMedicine = await _managerRepository.GetByIdAsync(request.Name);
 
-    if (existingMedicine is not null)
+    if (existingMedicine is null)
     {
-      existingMedicine.Name = request.Name;
-      existingMedicine.BarCode = request.BarCode;
-      _managerRepository.Update(existingMedicine);
-      await _managerRepository.SaveChangesAsync();
+      throw new Exception();
     }
+
+    existingMedicine.Name = request.Name;
+    existingMedicine.BarCode = request.BarCode;
+    _managerRepository.Update(existingMedicine);
+    await _managerRepository.SaveChangesAsync();
 
     return new UpdateMedicineResponse(existingMedicine.Name);
   }

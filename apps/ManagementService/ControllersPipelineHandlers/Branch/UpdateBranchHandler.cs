@@ -17,13 +17,15 @@ public class UpdateBranchHandler : IRequestHandler<UpdateBranchDTO, UpdateBranch
 
     var existingBranch = await _branchRepository.GetByIdAsync(request.Name);
 
-    if (existingBranch is not null)
+    if (existingBranch is null)
     {
-      existingBranch.PhoneNumber = request.PhoneNumber;
-      existingBranch.Address = request.Address;
-      _branchRepository.Update(existingBranch);
-      await _branchRepository.SaveChangesAsync();
+      throw new Exception();
     }
+
+    existingBranch.PhoneNumber = request.PhoneNumber;
+    existingBranch.Address = request.Address;
+    _branchRepository.Update(existingBranch);
+    await _branchRepository.SaveChangesAsync();
 
     return new UpdateBranchResponse(existingBranch.Name);
   }

@@ -15,15 +15,15 @@ public class CreateBranchHandler : IRequestHandler<CreateBranchDTO, CreateBranch
     _branchRepository = branchRepository;
   }
 
-  public Task<CreateBranchResponse> Handle(CreateBranchDTO createBranchDTO, CancellationToken cancellationToken)
+  public async Task<CreateBranchResponse> Handle(CreateBranchDTO createBranchDTO, CancellationToken cancellationToken)
   {
     Models.Branch branch = new(
         createBranchDTO.Name,
         createBranchDTO.PhoneNumber,
         createBranchDTO.Address);
     _branchRepository.Add(branch);
-    _branchRepository.SaveChangesAsync();
+    await _branchRepository.SaveChangesAsync();
 
-    return Task.FromResult(new CreateBranchResponse(branch.Name));
+    return await Task.FromResult(new CreateBranchResponse(branch.Name));
   }
 }

@@ -16,13 +16,15 @@ public class UpdateManagerHandler : IRequestHandler<UpdateManagerDTO, UpdateMana
   {
     var existingManager = await _managerRepository.GetByIdAsync(request.Name);
 
-    if (existingManager is not null)
+    if (existingManager is null)
     {
-      existingManager.PhoneNumber = request.PhoneNumber;
-      existingManager.Email = request.Email;
-      _managerRepository.Update(existingManager);
-      await _managerRepository.SaveChangesAsync();
+      throw new Exception();
     }
+
+    existingManager.PhoneNumber = request.PhoneNumber;
+    existingManager.Email = request.Email;
+    _managerRepository.Update(existingManager);
+    await _managerRepository.SaveChangesAsync();
 
     return new UpdateManagerResponse(existingManager.Name);
   }

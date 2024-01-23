@@ -15,15 +15,15 @@ public class CreateManagerHandler : IRequestHandler<CreateManagerDTO, CreateMana
     _managerRepository = managerRepository;
   }
 
-  public Task<CreateManagerResponse> Handle(CreateManagerDTO createManagerDTO, CancellationToken cancellationToken)
+  public async Task<CreateManagerResponse> Handle(CreateManagerDTO createManagerDTO, CancellationToken cancellationToken)
   {
     Models.Manager manager = new(
         createManagerDTO.Name,
         createManagerDTO.PhoneNumber,
         createManagerDTO.Email);
     _managerRepository.Add(manager);
-    _managerRepository.SaveChangesAsync();
+    await _managerRepository.SaveChangesAsync();
 
-    return Task.FromResult(new CreateManagerResponse(manager.Name));
+    return await Task.FromResult(new CreateManagerResponse(manager.Name));
   }
 }

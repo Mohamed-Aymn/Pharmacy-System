@@ -15,7 +15,7 @@ public class CreateMedicineHandler : IRequestHandler<CreateMedicineDTO, CreateMe
     _managerRepository = managerRepository;
   }
 
-  public Task<CreateMedicineResponse> Handle(CreateMedicineDTO createMedicineDTO, CancellationToken cancellationToken)
+  public async Task<CreateMedicineResponse> Handle(CreateMedicineDTO createMedicineDTO, CancellationToken cancellationToken)
   {
     Models.Medicine medicine = new(
         createMedicineDTO.Name,
@@ -23,8 +23,8 @@ public class CreateMedicineHandler : IRequestHandler<CreateMedicineDTO, CreateMe
         createMedicineDTO.BarCode,
         createMedicineDTO.MedicineType);
     _managerRepository.Add(medicine);
-    _managerRepository.SaveChangesAsync();
+    await _managerRepository.SaveChangesAsync();
 
-    return Task.FromResult(new CreateMedicineResponse(medicine.Name));
+    return await Task.FromResult(new CreateMedicineResponse(medicine.Name));
   }
 }

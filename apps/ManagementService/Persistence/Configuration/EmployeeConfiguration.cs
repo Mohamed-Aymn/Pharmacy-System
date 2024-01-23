@@ -10,6 +10,8 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
   {
     builder.ToTable("Employee");
     builder.HasKey(m => m.Name);
-    builder.HasOne(m => m.BranchName).WithMany();
+    builder.HasOne<Branch>()
+      .WithMany()
+      .HasForeignKey(m => m.BranchName);
   }
 }

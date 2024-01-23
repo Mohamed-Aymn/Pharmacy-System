@@ -9,14 +9,23 @@ public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeDTO, CreateEm
 {
   private readonly IMapper _mapper;
   private readonly IRepository<Models.Employee, string> _employeeRepository;
-  public CreateEmployeeHandler(IMapper mapper, IRepository<Models.Employee, string> employeeRepository)
+  private readonly IRepository<Models.Branch, string> _branchRepository;
+  public CreateEmployeeHandler(IMapper mapper, IRepository<Models.Employee, string> employeeRepository, IRepository<Models.Branch, string> branchRepository)
   {
     _mapper = mapper;
     _employeeRepository = employeeRepository;
+    _branchRepository = branchRepository;
   }
 
-  public Task<CreateEmployeeResponse> Handle(CreateEmployeeDTO createEmployeeDTO, CancellationToken cancellationToken)
+  public async Task<CreateEmployeeResponse> Handle(CreateEmployeeDTO createEmployeeDTO, CancellationToken cancellationToken)
   {
+    var branch = await _branchRepository.GetByIdAsync(createEmployeeDTO.BranchName);
+
+    if (branch is null)
+    {
+      throw new Exception();
+    }
+
     Models.Employee employee = new(
         createEmployeeDTO.Name,
         createEmployeeDTO.PhoneNumber,
@@ -24,8 +33,9 @@ public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeDTO, CreateEm
         createEmployeeDTO.Role,
         createEmployeeDTO.BranchName);
     _employeeRepository.Add(employee);
-    _employeeRepository.SaveChangesAsync();
 
-    return Task.FromResult(new CreateEmployeeResponse(employee.Name));
+    await _employeeRepository.SaveChangesAsync();
+
+    return await Task.FromResult(new CreateEmployeeResponse(employee.Name));
   }
 }

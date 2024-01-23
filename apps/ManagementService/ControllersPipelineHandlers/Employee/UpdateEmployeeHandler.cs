@@ -16,13 +16,15 @@ public class UpdateEmployeeHandler : IRequestHandler<UpdateEmployeeDTO, UpdateEm
   {
     var existingEmployee = await _employeeRepository.GetByIdAsync(request.Name);
 
-    if (existingEmployee is not null)
+    if (existingEmployee is null)
     {
-      existingEmployee.PhoneNumber = request.PhoneNumber;
-      existingEmployee.Email = request.Email;
-      _employeeRepository.Update(existingEmployee);
-      await _employeeRepository.SaveChangesAsync();
+      throw new Exception();
     }
+
+    existingEmployee.PhoneNumber = request.PhoneNumber;
+    existingEmployee.Email = request.Email;
+    _employeeRepository.Update(existingEmployee);
+    await _employeeRepository.SaveChangesAsync();
 
     return new UpdateEmployeeResponse(existingEmployee.Name);
   }
