@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-// using ManagementService.EntityMapping;
 using ManagementService.Models;
 using ManagementService.Persistence.Configuration;
 
