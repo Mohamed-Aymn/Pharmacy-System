@@ -1,7 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using ManagementService.Persistence;
-using ManagementService.Contracts.Companies.Get;
+using ManagementService.Contracts.Company.Get;
 
 namespace ManagementService.ControllersPipelineHandlers.Companies;
 
