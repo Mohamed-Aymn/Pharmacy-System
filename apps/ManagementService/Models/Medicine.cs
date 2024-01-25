@@ -18,6 +18,7 @@ public class Medicine
     MedicineType = medicineType;
   }
 
+
   public string Name { get; set; }
   public string BarCode { get; set; }
   public MedicineType MedicineType { get; set; }

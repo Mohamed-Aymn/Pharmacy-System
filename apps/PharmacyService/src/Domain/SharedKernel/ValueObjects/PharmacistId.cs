@@ -2,18 +2,18 @@ namespace PharmacyService.Domain.SharedKernel.ValueObjects;
 
 public class PharmacistId : ValueObject
 {
-  public PharmacistId(Guid id)
+  public PharmacistId(Guid value)
   {
-    Id = id;
+    Value = value;
   }
   public PharmacistId()
   {
-    Id = Guid.NewGuid();
+    Value = Guid.NewGuid();
   }
 
-  public Guid Id { get; set; }
+  public Guid Value { get; set; }
   protected override IEnumerable<object> GetEqualityComponents()
   {
-    yield return Id;
+    yield return Value;
   }
 }

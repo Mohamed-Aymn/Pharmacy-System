@@ -4,19 +4,19 @@ namespace PharmacyService.Domain.ReceiptAggregate;
 
 public class ReceiptId : ValueObject
 {
-  public ReceiptId(Guid id)
+  public ReceiptId(Guid value)
   {
-    Id = id;
+    Value = value;
   }
   public ReceiptId()
   {
-    Id = Guid.NewGuid();
+    Value = Guid.NewGuid();
   }
 
 
-  public Guid Id { get; set; }
+  public Guid Value { get; set; }
   protected override IEnumerable<object> GetEqualityComponents()
   {
-    yield return Id;
+    yield return Value;
   }
 }

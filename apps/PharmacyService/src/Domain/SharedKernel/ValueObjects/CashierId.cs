@@ -2,18 +2,18 @@ namespace PharmacyService.Domain.SharedKernel.ValueObjects;
 
 public class CashierId : ValueObject
 {
-  public CashierId(Guid id)
+  public CashierId(Guid value)
   {
-    Id = id;
+    Value = value;
   }
   public CashierId()
   {
-    Id = Guid.NewGuid();
+    Value = Guid.NewGuid();
   }
 
-  public Guid Id { get; set; }
+  public Guid Value { get; set; }
   protected override IEnumerable<object> GetEqualityComponents()
   {
-    yield return Id;
+    yield return Value;
   }
 }

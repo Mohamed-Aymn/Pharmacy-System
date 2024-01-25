@@ -2,19 +2,19 @@ namespace PharmacyService.Domain.SharedKernel.ValueObjects;
 
 public class BranchId : ValueObject
 {
-  public BranchId(Guid id)
+  public BranchId(Guid value)
   {
-    Id = id;
+    Value = value;
   }
   public BranchId()
   {
-    Id = Guid.NewGuid();
+    Value = Guid.NewGuid();
   }
 
 
-  public Guid Id { get; set; }
+  public Guid Value { get; set; }
   protected override IEnumerable<object> GetEqualityComponents()
   {
-    yield return Id;
+    yield return Value;
   }
 }
