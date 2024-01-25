@@ -1,3 +1,4 @@
+using ManagementService.Persistence.Configuration;
 using Microsoft.EntityFrameworkCore;
 using PharmacyService.Domain.BranchAggregate;
 using PharmacyService.Domain.CashierAggregate;
@@ -13,10 +14,21 @@ public class PharmacyServiceDbContext : DbContext
   {
   }
 
+  // protected override void OnModelCreating(ModelBuilder modelBuilder)
+  // {
+
+  //   modelBuilder.ApplyConfigurationsFromAssembly(typeof(PharmacyServiceDbContext).Assembly);
+  //   base.OnModelCreating(modelBuilder);
+  // }
+
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
-    modelBuilder.ApplyConfigurationsFromAssembly(typeof(PharmacyServiceDbContext).Assembly);
-    base.OnModelCreating(modelBuilder);
+    modelBuilder
+        .ApplyConfiguration(new BranchConfiguration())
+        .ApplyConfiguration(new CashierConfiguration())
+        .ApplyConfiguration(new MedicineConfiguration())
+        .ApplyConfiguration(new PharmacistConfiguration())
+        .ApplyConfiguration(new ReceiptConfiguration());
   }
 
   public DbSet<Branch> Branches { get; set; }
