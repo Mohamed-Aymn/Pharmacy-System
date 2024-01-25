@@ -1,5 +1,6 @@
-using OrderService.Application;
-using OrderService.Infrastructure;
+using PharmacyService.Api.MappingConfiguration;
+using PharmacyService.Application;
+using PharmacyService.Infrastructure;
 
 class Program
 {
@@ -7,7 +8,7 @@ class Program
   {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers(options => options.Filters.Add<ValidationExceptionFilter>());
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
@@ -16,11 +17,14 @@ class Program
         .AddApplicationLayer()
         .AddInfrastructureLayer();
 
+    MappingConfig.Configure();
+
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
     {
       app.UseSwagger();
+      app.UseSwaggerUI();
     }
 
     app.UseHttpsRedirection();

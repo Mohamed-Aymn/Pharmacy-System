@@ -1,11 +1,7 @@
 using MapsterMapper;
 using MediatR;
-using PharmacyService.Application.Branches.Common;
-using PharmacyService.Application.Branches.Create;
 using PharmacyService.Application.Common.Interfaces.Persistance;
 using PharmacyService.Application.Medicines.Common;
-using PharmacyService.Domain.BranchAggregate;
-using PharmacyService.Domain.SharedKernel.ValueObjects;
 
 namespace PharmacyService.Application.Medicines.ReceiveBranchTransfer;
 

@@ -1,7 +1,7 @@
 namespace PharmacyService.Contracts.Receipt;
 
 public record CreateReceiptRequest(
-    string[] MedicinesId,
+    string[] MedicinesName,
     string BranchId,
     string PharmacistId,
     string CashierId

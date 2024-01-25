@@ -19,7 +19,7 @@ public class ReceiptController : Controller
     _mapper = mapper;
   }
 
-  [HttpPost("CreateReceipt", Name = "CreateNewBranch")]
+  [HttpPost("CreateReceipt", Name = "CreateReceipt")]
   public async Task<IActionResult> CreateOrder(CreateReceiptRequest request, CancellationToken cancellationToken)
   {
     var command = _mapper.Map<CreateReceiptDto>(request);
@@ -29,7 +29,7 @@ public class ReceiptController : Controller
     return Ok(result.Message);
   }
 
-  [HttpPost("ReturnReceipt", Name = "CreateNewBranch")]
+  [HttpPost("ReturnReceipt", Name = "ReturnReceipt")]
   public async Task<IActionResult> CreateOrder(ReturnReceiptRequest request, CancellationToken cancellationToken)
   {
     var command = _mapper.Map<ReturnReceiptDto>(request);

@@ -1,7 +1,7 @@
 namespace PharmacyService.Contracts.Medicine;
 
 public record SendBranchTransferRequest(
-    string PharamcistId,
+    string PharmacistId,
     string BranchId,
     string[] MedicinesName
 );

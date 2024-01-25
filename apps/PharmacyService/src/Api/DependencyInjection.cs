@@ -2,7 +2,7 @@ using System.Reflection;
 using Mapster;
 using MapsterMapper;
 
-namespace OrderService.Application;
+namespace PharmacyService.Application;
 
 public static class DependencyInjection
 {

@@ -1,7 +1,7 @@
 namespace PharmacyService.Contracts.Medicine;
 
 public record DispsneRequest(
-    Guid PharamcistId,
+    Guid PharmacistId,
     Guid BranchId,
-    string[] MedicineIds
+    string[] MedicinesName
 );

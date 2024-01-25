@@ -1,11 +1,8 @@
 using MapsterMapper;
 using MediatR;
-using PharmacyService.Application.Branches.Common;
 using PharmacyService.Application.Common.Interfaces.Persistance;
 using PharmacyService.Application.Medicines.Common;
 using PharmacyService.Application.Medicines.Create;
-using PharmacyService.Domain.BranchAggregate;
-using PharmacyService.Domain.SharedKernel.ValueObjects;
 
 namespace PharmacyService.Application.Branches.Create;
 
@@ -23,6 +20,7 @@ public class DispenseMedicineHandler : IRequestHandler<DispenseMedicineDto, Medi
   {
 
     // trigger event here
+    var id = request.PharmacistId.Value;
 
     return new MedicineResult();
   }

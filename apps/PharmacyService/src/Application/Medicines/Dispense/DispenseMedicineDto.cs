@@ -5,7 +5,7 @@ using PharmacyService.Domain.SharedKernel.ValueObjects;
 namespace PharmacyService.Application.Medicines.Create;
 
 public record DispenseMedicineDto(
-    BranchId BranchId,
     PharmacistId PharmacistId,
-    string[] MedicineIds
+    BranchId BranchId,
+    string[] MedicinesName
 ) : IRequest<MedicineResult>;

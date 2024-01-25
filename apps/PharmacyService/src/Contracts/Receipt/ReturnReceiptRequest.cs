@@ -1,6 +1,6 @@
 namespace PharmacyService.Contracts.Receipt;
 
 public record ReturnReceiptRequest(
-    string[] MedicinesIds,
+    string[] MedicinesName,
     string CashierId
 );

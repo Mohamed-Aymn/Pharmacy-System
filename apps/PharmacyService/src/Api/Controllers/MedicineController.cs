@@ -24,7 +24,7 @@ public class MedicineController : Controller
   }
 
   [HttpPost("Dispense", Name = "DispenseMedicines")]
-  public async Task<IActionResult> CreateOrder(DispsneRequest request, CancellationToken cancellationToken)
+  public async Task<IActionResult> Dispense(DispsneRequest request, CancellationToken cancellationToken)
   {
     var command = _mapper.Map<DispenseMedicineDto>(request);
 
@@ -34,7 +34,7 @@ public class MedicineController : Controller
   }
 
   [HttpPost("Search", Name = "MedicinesSearch")]
-  public async Task<IActionResult> CreateOrder(SearchRequest request, CancellationToken cancellationToken)
+  public async Task<IActionResult> Search(SearchRequest request, CancellationToken cancellationToken)
   {
     var command = _mapper.Map<SearchDto>(request);
 
@@ -44,7 +44,7 @@ public class MedicineController : Controller
   }
 
   [HttpPost("DirectSearch", Name = "DirectBarCodeSearch")]
-  public async Task<IActionResult> CreateOrder(DirectSearchRequest request, CancellationToken cancellationToken)
+  public async Task<IActionResult> DirectSearch(DirectSearchRequest request, CancellationToken cancellationToken)
   {
     var command = _mapper.Map<DirectSearchDto>(request);
 
@@ -54,7 +54,7 @@ public class MedicineController : Controller
   }
 
   [HttpPost("BranchesSearch", Name = "MultipleBranchesSearch")]
-  public async Task<IActionResult> CreateOrder(BranchesSearchRequest request, CancellationToken cancellationToken)
+  public async Task<IActionResult> BranchesSearch(BranchesSearchRequest request, CancellationToken cancellationToken)
   {
     var command = _mapper.Map<BranchesSearchDto>(request);
 
@@ -63,8 +63,8 @@ public class MedicineController : Controller
     return Ok(result.Message);
   }
 
-  [HttpPost("SendBranchTransfer", Name = "MultipleBranchesSearch")]
-  public async Task<IActionResult> CreateOrder(SendBranchTransferRequest request, CancellationToken cancellationToken)
+  [HttpPost("SendBranchTransfer", Name = "SendBranchTransfer")]
+  public async Task<IActionResult> SendBranchTransfer(SendBranchTransferRequest request, CancellationToken cancellationToken)
   {
     var command = _mapper.Map<SendBranchTransferDto>(request);
 
@@ -73,8 +73,8 @@ public class MedicineController : Controller
     return Ok(result.Message);
   }
 
-  [HttpPost("ReceiveBranchTransfer", Name = "MultipleBranchesSearch")]
-  public async Task<IActionResult> CreateOrder(ReceiveBranchTransferRequest request, CancellationToken cancellationToken)
+  [HttpPost("ReceiveBranchTransfer", Name = "ReceiveBranchTransfer")]
+  public async Task<IActionResult> ReceiveBranchTransferc(ReceiveBranchTransferRequest request, CancellationToken cancellationToken)
   {
     var command = _mapper.Map<ReceiveBranchTransferDto>(request);
 

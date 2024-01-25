@@ -7,7 +7,7 @@ public class CreateReceiptValidator : AbstractValidator<CreateReceiptDto>
   {
     RuleFor(m => m.BranchId).NotNull();
     RuleFor(m => m.PharmacistId).NotNull();
-    RuleFor(m => m.MedicinesId).NotNull();
+    RuleFor(m => m.MedicinesName).NotNull();
     RuleFor(m => m.CashierId).NotNull();
   }
 }
