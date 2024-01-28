@@ -10,9 +10,7 @@ namespace PharmacyService.Infrastructure.Persistence;
 
 public class PharmacyServiceDbContext : DbContext
 {
-  public PharmacyServiceDbContext(DbContextOptions<PharmacyServiceDbContext> options) : base(options)
-  {
-  }
+  public PharmacyServiceDbContext(DbContextOptions<PharmacyServiceDbContext> options) : base(options) { }
 
   // protected override void OnModelCreating(ModelBuilder modelBuilder)
   // {
@@ -24,11 +22,11 @@ public class PharmacyServiceDbContext : DbContext
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     modelBuilder
-        .ApplyConfiguration(new BranchConfiguration())
-        .ApplyConfiguration(new CashierConfiguration())
-        .ApplyConfiguration(new MedicineConfiguration())
-        .ApplyConfiguration(new PharmacistConfiguration())
-        .ApplyConfiguration(new ReceiptConfiguration());
+    .ApplyConfiguration(new BranchConfiguration())
+    .ApplyConfiguration(new CashierConfiguration())
+    .ApplyConfiguration(new MedicineConfiguration())
+    .ApplyConfiguration(new PharmacistConfiguration())
+    .ApplyConfiguration(new ReceiptConfiguration());
   }
 
   public DbSet<Branch> Branches { get; set; }

@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PharmacyService.Domain.BranchAggregate;
 using PharmacyService.Domain.CashierAggregate;
 using PharmacyService.Domain.SharedKernel.ValueObjects;
 
@@ -14,5 +13,9 @@ public class CashierConfiguration : IEntityTypeConfiguration<Cashier>
     builder.HasKey(c => c.Id);
     builder.Property(c => c.Id)
         .HasConversion(id => id.Value, value => new CashierId(value));
+
+    builder.Property(c => c.Name).IsRequired();
+    builder.Property(c => c.Email).IsRequired();
+    builder.Property(c => c.PhoneNumber).IsRequired();
   }
 }

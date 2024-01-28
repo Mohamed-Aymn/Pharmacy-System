@@ -11,7 +11,10 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
   {
     builder.ToTable("Branch");
     builder.HasKey(b => b.Id);
-    builder.Property(b => b.Id)
-        .HasConversion(id => id.Value, value => new BranchId(value));
+    builder.Property(b => b.Id).HasConversion(id => id.Value, value => new BranchId(value));
+
+    builder.Property(b => b.Name).IsRequired();
+    builder.Property(b => b.Address).IsRequired();
+    builder.Property(b => b.PhoneNumber).IsRequired();
   }
 }

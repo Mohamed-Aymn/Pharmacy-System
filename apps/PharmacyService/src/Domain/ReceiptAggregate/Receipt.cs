@@ -12,5 +12,5 @@ public class Receipt : AggregateRoot<ReceiptId>
   public BranchId BranchId { get; set; }
   public PharmacistId PharmacistId { get; set; }
   public CashierId CashierId { get; set; }
-  public DateAndTime DateAndTime { get; set; }
+  public string DateAndTime { get; set; }
 }
