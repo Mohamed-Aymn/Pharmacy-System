@@ -68,8 +68,8 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("PharmacyService.Domain.MedicineAggregate.Medicine", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("BarCode")
                         .IsRequired()
@@ -134,10 +134,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<Guid[]>("MedicineIds")
-                        .IsRequired()
-                        .HasColumnType("uuid[]");
-
                     b.Property<Guid>("PharmacistId")
                         .HasColumnType("uuid");
 
@@ -150,6 +146,20 @@ namespace Infrastructure.Migrations
                     b.HasIndex("PharmacistId");
 
                     b.ToTable("Receipt", (string)null);
+                });
+
+            modelBuilder.Entity("PharmacyService.Domain.ReceiptMedicinesAggregate.ReceiptMedicines", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ReceiptId");
+
+                    b.Property<string>("Medicine")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id", "Medicine");
+
+                    b.ToTable("ReceiptMedicines", (string)null);
                 });
 
             modelBuilder.Entity("PharmacyService.Domain.MedicineAggregate.Medicine", b =>
@@ -178,6 +188,15 @@ namespace Infrastructure.Migrations
                     b.HasOne("PharmacyService.Domain.PharmacistAggregate.Pharmacist", null)
                         .WithMany()
                         .HasForeignKey("PharmacistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PharmacyService.Domain.ReceiptMedicinesAggregate.ReceiptMedicines", b =>
+                {
+                    b.HasOne("PharmacyService.Domain.ReceiptAggregate.Receipt", null)
+                        .WithMany()
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

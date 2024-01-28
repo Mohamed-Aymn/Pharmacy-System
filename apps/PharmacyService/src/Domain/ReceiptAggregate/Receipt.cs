@@ -1,4 +1,4 @@
-using Microsoft.VisualBasic;
+using PharmacyService.Domain.ReceiptMedicinesAggregate;
 using PharmacyService.Domain.SharedKernel;
 using PharmacyService.Domain.SharedKernel.ValueObjects;
 
@@ -8,7 +8,7 @@ public class Receipt : AggregateRoot<ReceiptId>
 {
   public Receipt(ReceiptId id) : base(id) { }
 
-  public MedicineId[] MedicineIds { get; set; }
+  // public ReceiptMedicines ReceiptMedicines { get; set; }
   public BranchId BranchId { get; set; }
   public PharmacistId PharmacistId { get; set; }
   public CashierId CashierId { get; set; }

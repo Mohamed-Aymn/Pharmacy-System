@@ -26,7 +26,8 @@ public class PharmacyServiceDbContext : DbContext
     .ApplyConfiguration(new CashierConfiguration())
     .ApplyConfiguration(new MedicineConfiguration())
     .ApplyConfiguration(new PharmacistConfiguration())
-    .ApplyConfiguration(new ReceiptConfiguration());
+    .ApplyConfiguration(new ReceiptConfiguration())
+    .ApplyConfiguration(new ReceiptMedicinesConfiguration());
   }
 
   public DbSet<Branch> Branches { get; set; }

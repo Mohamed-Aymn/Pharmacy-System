@@ -13,7 +13,6 @@ public class ReceiptId : ValueObject
     Value = Guid.NewGuid();
   }
 
-
   public Guid Value { get; set; }
   protected override IEnumerable<object> GetEqualityComponents()
   {

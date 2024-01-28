@@ -17,7 +17,7 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
     builder.Property(r => r.Id)
         .HasConversion(id => id.Value, value => new ReceiptId(value));
 
-    builder.Property(p => p.MedicineIds).IsRequired();
+    // builder.Property(p => p.MedicineIds).IsRequired();
     builder.Property(p => p.BranchId).IsRequired();
     builder.Property(p => p.PharmacistId).IsRequired();
     builder.Property(p => p.CashierId).IsRequired();
@@ -25,16 +25,16 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
     builder.Property(r => r.DateAndTime).IsRequired()
       .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-    builder
-        .HasMany(e => e.MedicineIds)
-        .WithMany();
+    // builder
+    //     .HasMany(e => e.MedicineIds)
+    //     .WithMany();
 
 
-    builder.Property(p => p.MedicineIds)
-        .IsRequired()
-        .HasPostgresArrayConversion(
-          id => id.Value,
-          value => new MedicineId(value));
+    // builder.Property(p => p.MedicineIds)
+    //     .IsRequired()
+    //     .HasPostgresArrayConversion(
+    //       id => id.Value,
+    //       value => new MedicineId(value));
 
     builder.HasOne<Branch>()
                 .WithMany()

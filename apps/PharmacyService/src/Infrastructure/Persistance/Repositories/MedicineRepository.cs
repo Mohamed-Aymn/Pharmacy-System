@@ -19,14 +19,14 @@ public class MedicineRepository : IMedicineRepository<Medicine, MedicineId>
     await _dbContext.Medicines.AddAsync(entity);
   }
 
-  public async Task DeleteAsync(Guid id)
-  {
-    var entity = await GetByIdAsync(id);
-    if (entity! != null!)
-    {
-      _dbContext.Medicines.Remove(entity);
-    }
-  }
+  // public async Task DeleteAsync(Guid id)
+  // {
+  //   var entity = await GetByIdAsync(id);
+  //   if (entity! != null!)
+  //   {
+  //     _dbContext.Medicines.Remove(entity);
+  //   }
+  // }
 
   public async Task DeleteAsync(MedicineId id)
   {
@@ -47,19 +47,19 @@ public class MedicineRepository : IMedicineRepository<Medicine, MedicineId>
     return await _dbContext.Medicines.FindAsync(email);
   }
 
-  public async Task<Medicine?> GetByIdAsync(Guid id)
-  {
-    return await _dbContext.Medicines.FindAsync(id);
-  }
+  // public async Task<Medicine?> GetByIdAsync(Guid id)
+  // {
+  //   return await _dbContext.Medicines.FindAsync(id);
+  // }
 
   public async Task<Medicine?> GetByIdAsync(MedicineId id)
   {
-    return await GetByIdAsync(id.Value);
+    return await GetByIdAsync(id);
   }
 
   public async Task UpdateAsync(Medicine entity)
   {
-    var existingEntity = await GetByIdAsync(entity.Id.Value);
+    var existingEntity = await GetByIdAsync(entity.Id);
     if (existingEntity! != null!)
     {
       _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);

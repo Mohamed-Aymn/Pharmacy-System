@@ -58,7 +58,7 @@ namespace Infrastructure.Migrations
                 name: "Medicine",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     BarCode = table.Column<string>(type: "text", nullable: false),
                     MedicineType = table.Column<int>(type: "integer", nullable: false),
@@ -80,7 +80,6 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    MedicineIds = table.Column<Guid[]>(type: "uuid[]", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: false),
                     PharmacistId = table.Column<Guid>(type: "uuid", nullable: false),
                     CashierId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -105,6 +104,24 @@ namespace Infrastructure.Migrations
                         name: "FK_Receipt_Pharmacy_PharmacistId",
                         column: x => x.PharmacistId,
                         principalTable: "Pharmacy",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReceiptMedicines",
+                columns: table => new
+                {
+                    ReceiptId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Medicine = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReceiptMedicines", x => new { x.ReceiptId, x.Medicine });
+                    table.ForeignKey(
+                        name: "FK_ReceiptMedicines_Receipt_ReceiptId",
+                        column: x => x.ReceiptId,
+                        principalTable: "Receipt",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -135,6 +152,9 @@ namespace Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Medicine");
+
+            migrationBuilder.DropTable(
+                name: "ReceiptMedicines");
 
             migrationBuilder.DropTable(
                 name: "Receipt");
