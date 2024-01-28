@@ -1,11 +1,6 @@
-// // using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using OrderService.Application;
-using OrderService.Infrastructure;
+using PharmacyService.Api.MappingConfiguration;
+using PharmacyService.Application;
+using PharmacyService.Infrastructure;
 
 class Program
 {
@@ -13,7 +8,7 @@ class Program
   {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers(options => options.Filters.Add<ValidationExceptionFilter>());
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
@@ -22,17 +17,14 @@ class Program
         .AddApplicationLayer()
         .AddInfrastructureLayer();
 
+    MappingConfig.Configure();
+
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
     {
       app.UseSwagger();
-      app.UseSwaggerUI(options =>
-      {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.RoutePrefix = string.Empty;
-        options.DocumentTitle = "Pharmacy Service";
-      });
+      app.UseSwaggerUI();
     }
 
     app.UseHttpsRedirection();
