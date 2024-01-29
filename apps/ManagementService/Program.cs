@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ManagementService.MessageBroker;
 using Microsoft.Extensions.Options;
 using MassTransit;
+using ManagementService.MessageBroker.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");

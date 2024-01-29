@@ -16,9 +16,7 @@ public class BranchCreatedEventConsumer : IConsumer<BranchCreatedEvent>
   public Task Consume(ConsumeContext<BranchCreatedEvent> context)
   {
 
-    _logger.LogInformation("Branch event consumed");
 
     return Task.CompletedTask;
   }
-
 }

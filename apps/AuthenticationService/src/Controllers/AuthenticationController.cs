@@ -14,130 +14,130 @@ namespace AuthenticationService.Controllers;
 [Route("api/auth")]
 public class AuthenticationController : Controller
 {
-    private readonly IUserRepository _userRepository;
+  private readonly IUserRepository _userRepository;
 
-    public AuthenticationController(IUserRepository userRepository)
+  public AuthenticationController(IUserRepository userRepository)
+  {
+    _userRepository = userRepository;
+  }
+
+  // [HttpPost("register")]
+  // public async Task<IActionResult> Signup(RegisterUserRequest request)
+  // {
+  //     // body validation
+  //     RegisterUserValidator validator = new();
+  //     ValidationResult results = validator.Validate(request);
+  //     if (!results.IsValid)
+  //     {
+  //         throw new Exception("something went wrong");
+  //     }
+
+  //     // check if email exists
+  //     var duplicateEmailCheck = await _userRepository.GetByEmail(request.Email!);
+  //     if (duplicateEmailCheck != null)
+  //     {
+  //         throw new Exception("something went wrong");
+  //     }
+
+  //     // hash password
+  //     request.Password = PasswordHasher.HashPassword(request.Password!);
+
+  //     // store user in database (create user)
+  //     User user = new(
+  //         name: request.Name,
+  //         email: request.Email,
+  //         password: request.Password
+  //     );
+  //     await _userRepository.Add(user);
+
+  //     // generate jwt
+  //     var token = TokenGenerator.GenerateToken(user);
+
+  //     // store jwt in cookies
+  //     CookieOptions cookieOptions = new()
+  //     {
+  //         Expires = DateTime.Now.AddDays(1),
+  //         Path = "/",
+  //         HttpOnly = true,
+  //     };
+  //     Response.Cookies.Append("token", token, cookieOptions);
+
+  //     return Ok("User created successfully");
+  // }
+
+  [HttpPost("login")]
+  public async Task<IActionResult> Signin(SigninRequest request)
+  {
+    // body validation
+    SigninValidator validator = new();
+    ValidationResult results = validator.Validate(request);
+    if (!results.IsValid)
     {
-        _userRepository = userRepository;
+      throw new Exception("something went wrong");
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Signup(RegisterUserRequest request)
+    // check if email exists
+    var userData = await _userRepository.GetByEmail(request.Email)
+        ?? throw new Exception("something went wrong");
+
+    // check if valid password
+    if (!PasswordHasher.ValidatePassword(request.Password, userData.Password!))
     {
-        // body validation
-        RegisterUserValidator validator = new();
-        ValidationResult results = validator.Validate(request);
-        if (!results.IsValid)
-        {
-            throw new Exception("something went wrong");
-        }
-
-        // check if email exists
-        var duplicateEmailCheck = await _userRepository.GetByEmail(request.Email!);
-        if (duplicateEmailCheck != null)
-        {
-            throw new Exception("something went wrong");
-        }
-
-        // hash password
-        request.Password = PasswordHasher.HashPassword(request.Password!);
-
-        // store user in database (create user)
-        User user = new(
-            name: request.Name,
-            email: request.Email,
-            password: request.Password
-        );
-        await _userRepository.Add(user);
-
-        // generate jwt
-        var token = TokenGenerator.GenerateToken(user);
-
-        // store jwt in cookies
-        CookieOptions cookieOptions = new()
-        {
-            Expires = DateTime.Now.AddDays(1),
-            Path = "/",
-            HttpOnly = true,
-        };
-        Response.Cookies.Append("token", token, cookieOptions);
-
-        return Ok("User created successfully");
+      throw new Exception("something went wrong");
     }
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Signin(SigninRequest request)
+    // generate jwt
+    var token = TokenGenerator.GenerateToken(userData);
+
+    // store jwt in cookies
+    CookieOptions cookieOptions = new()
     {
-        // body validation
-        SigninValidator validator = new();
-        ValidationResult results = validator.Validate(request);
-        if (!results.IsValid)
-        {
-            throw new Exception("something went wrong");
-        }
+      Expires = DateTime.Now.AddDays(1),
+      Path = "/",
+      HttpOnly = true,
+      Secure = true
+    };
+    Response.Cookies.Append("token", token, cookieOptions);
 
-        // check if email exists
-        var userData = await _userRepository.GetByEmail(request.Email)
-            ?? throw new Exception("something went wrong");
+    return Ok();
+  }
 
-        // check if valid password
-        if (!PasswordHasher.ValidatePassword(request.Password, userData.Password!))
-        {
-            throw new Exception("something went wrong");
-        }
-
-        // generate jwt
-        var token = TokenGenerator.GenerateToken(userData);
-
-        // store jwt in cookies
-        CookieOptions cookieOptions = new()
-        {
-            Expires = DateTime.Now.AddDays(1),
-            Path = "/",
-            HttpOnly = true,
-            Secure = true
-        };
-        Response.Cookies.Append("token", token, cookieOptions);
-
-        return Ok();
-    }
-
-    [Authorize]
-    [HttpPost("logout")]
-    public IActionResult Signout()
+  [Authorize]
+  [HttpPost("logout")]
+  public IActionResult Signout()
+  {
+    Response.Cookies.Delete("token", new CookieOptions
     {
-        Response.Cookies.Delete("token", new CookieOptions
-        {
-            HttpOnly = true,
-            SameSite = SameSiteMode.None,
-            Secure = true
-        });
-        return Ok();
-    }
+      HttpOnly = true,
+      SameSite = SameSiteMode.None,
+      Secure = true
+    });
+    return Ok();
+  }
 
-    [Authorize]
-    [HttpGet("currentuser")]
-    public IActionResult CurrentUser()
+  [Authorize]
+  [HttpGet("currentuser")]
+  public IActionResult CurrentUser()
+  {
+    // get token from cookie
+    string token = Request.Cookies["token"]! ?? throw new Exception("something went wrong");
+
+    var tokenHandler = new JwtSecurityTokenHandler();
+    var decodedToken = tokenHandler.ReadJwtToken(token);
+
+    string userId = decodedToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value!;
+    string userName = decodedToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value!;
+    string userEmail = decodedToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value!;
+
+    // return current user or null
+    return Ok(new
     {
-        // get token from cookie
-        string token = Request.Cookies["token"]! ?? throw new Exception("something went wrong");
-
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var decodedToken = tokenHandler.ReadJwtToken(token);
-
-        string userId = decodedToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value!;
-        string userName = decodedToken.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value!;
-        string userEmail = decodedToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value!;
-
-        // return current user or null
-        return Ok(new
-        {
-            currentUser = new
-            {
-                id = userId,
-                name = userName,
-                email = userEmail
-            }
-        });
-    }
+      currentUser = new
+      {
+        id = userId,
+        name = userName,
+        email = userEmail
+      }
+    });
+  }
 }
