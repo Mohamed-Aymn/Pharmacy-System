@@ -11,12 +11,10 @@ public class CreateBranchHandler : IRequestHandler<CreateBranchDTO, CreateBranch
 {
   private readonly IMapper _mapper;
   private readonly IRepository<Models.Branch, string> _branchRepository;
-  private readonly IEventBus _eventBus;
-  public CreateBranchHandler(IMapper mapper, IRepository<Models.Branch, string> branchRepository, IEventBus eventBus)
+  public CreateBranchHandler(IMapper mapper, IRepository<Models.Branch, string> branchRepository)
   {
     _mapper = mapper;
     _branchRepository = branchRepository;
-    _eventBus = eventBus;
   }
 
   public async Task<CreateBranchResponse> Handle(CreateBranchDTO createBranchDTO, CancellationToken cancellationToken)
@@ -27,8 +25,6 @@ public class CreateBranchHandler : IRequestHandler<CreateBranchDTO, CreateBranch
         createBranchDTO.Address);
     _branchRepository.Add(branch);
     await _branchRepository.SaveChangesAsync();
-
-    await _eventBus.PublishAsync(new BranchCreatedEvent(createBranchDTO.Name), cancellationToken);
 
     return await Task.FromResult(new CreateBranchResponse(branch.Name));
   }

@@ -1,19 +1,18 @@
 using ManagementService.MessageBroker.Events;
-using ManagementService.Persistence;
 using MassTransit;
 
 namespace ManagementService.MessageBroker.Consumers;
 
-public class BranchCreatedEventConsumer : IConsumer<BranchCreatedEvent>
+public class UserCreatedEventConsumer : IConsumer<UserCreatedEvent>
 {
-  private readonly ILogger<BranchCreatedEventConsumer> _logger;
+  private readonly ILogger<UserCreatedEventConsumer> _logger;
 
-  public BranchCreatedEventConsumer(ILogger<BranchCreatedEventConsumer> logger)
+  public UserCreatedEventConsumer(ILogger<UserCreatedEventConsumer> logger)
   {
     _logger = logger;
   }
 
-  public Task Consume(ConsumeContext<BranchCreatedEvent> context)
+  public Task Consume(ConsumeContext<UserCreatedEvent> context)
   {
 
 

@@ -2,6 +2,8 @@ using MapsterMapper;
 using MediatR;
 using ManagementService.Persistence;
 using ManagementService.Contracts.Employee.Create;
+using ManagementService.MessageBroker;
+using ManagementService.MessageBroker.Events;
 
 namespace ManagementService.ControllersPipelineHandlers.Employee;
 
@@ -10,11 +12,14 @@ public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeDTO, CreateEm
   private readonly IMapper _mapper;
   private readonly IRepository<Models.Employee, string> _employeeRepository;
   private readonly IRepository<Models.Branch, string> _branchRepository;
-  public CreateEmployeeHandler(IMapper mapper, IRepository<Models.Employee, string> employeeRepository, IRepository<Models.Branch, string> branchRepository)
+
+  private readonly IEventBus _eventBus;
+  public CreateEmployeeHandler(IMapper mapper, IRepository<Models.Employee, string> employeeRepository, IRepository<Models.Branch, string> branchRepository, IEventBus eventBus)
   {
     _mapper = mapper;
     _employeeRepository = employeeRepository;
     _branchRepository = branchRepository;
+    _eventBus = eventBus;
   }
 
   public async Task<CreateEmployeeResponse> Handle(CreateEmployeeDTO createEmployeeDTO, CancellationToken cancellationToken)
@@ -35,6 +40,8 @@ public class CreateEmployeeHandler : IRequestHandler<CreateEmployeeDTO, CreateEm
     _employeeRepository.Add(employee);
 
     await _employeeRepository.SaveChangesAsync();
+
+    await _eventBus.PublishAsync(new UserCreatedEvent(createEmployeeDTO.Name, "bla", createEmployeeDTO.Email), cancellationToken);
 
     return await Task.FromResult(new CreateEmployeeResponse(employee.Name));
   }

@@ -1,4 +1,4 @@
-namespace ManagementService.MessageBroker;
+namespace PharmacyService.Application.Common.Interfaces;
 
 public interface IEventBus
 {

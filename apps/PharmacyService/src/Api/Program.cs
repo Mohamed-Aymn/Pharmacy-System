@@ -15,7 +15,7 @@ class Program
     builder.Services
         .AddPresentationLayer()
         .AddApplicationLayer()
-        .AddInfrastructureLayer();
+        .AddInfrastructureLayer(builder.Configuration);
 
     MappingConfig.Configure();
 

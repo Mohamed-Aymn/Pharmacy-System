@@ -16,15 +16,17 @@ public class UserCreatedEventConsumer : IConsumer<UserCreatedEvent>
     _userRepository = userRepository;
   }
 
-  public async Task Consume(ConsumeContext<UserCreatedEvent> context)
+  public Task Consume(ConsumeContext<UserCreatedEvent> context)
   {
-    User user = new(
-      name: context.Message.Name,
-      email: context.Message.Email,
-      password: context.Message.Password
-    );
-    await _userRepository.Add(user);
+    // User user = new(
+    //   name: context.Message.Name,
+    //   email: context.Message.Email,
+    //   password: context.Message.Password
+    // );
+    // await _userRepository.Add(user);
 
-    // return Task.CompletedTask;
+    _logger.LogInformation("user added successfully");
+
+    return Task.CompletedTask;
   }
 }
