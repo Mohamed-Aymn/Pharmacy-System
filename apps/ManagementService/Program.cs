@@ -5,6 +5,9 @@ using MapsterMapper;
 using MediatR;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using ManagementService.MessageBroker;
+using Microsoft.Extensions.Options;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -21,6 +24,41 @@ builder.Services.AddSingleton<IMapper, Mapper>();
 builder.Services.AddScoped<IMediator, Mediator>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+// message broker
+builder.Services.Configure<MessageBrokerSettings>(builder.Configuration.GetSection("MessageBroker"));
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<MessageBrokerSettings>>().Value);
+
+// massTransit
+builder.Services.AddMassTransit(busConfigurator =>
+{
+  busConfigurator.SetKebabCaseEndpointNameFormatter();
+
+  busConfigurator.AddConsumer<BranchCreatedEventConsumer>();
+  busConfigurator.UsingRabbitMq((context, configurator) =>
+  {
+    MessageBrokerSettings settings = context.GetRequiredService<MessageBrokerSettings>();
+
+    configurator.ReceiveEndpoint("my-queue", ep =>
+  {
+    ep.PrefetchCount = 16;
+    ep.UseMessageRetry(r => r.Interval(2, 100));
+
+    ep.ConfigureConsumers(context); // Automatically configure consumers
+    // ep.ConfigureConsumer<BranchCreatedEventConsumer>(context);
+  });
+
+
+    configurator.Host(new Uri(settings.Host), h =>
+    {
+      h.Username(settings.Username);
+      h.Password(settings.Password);
+    });
+  });
+});
+
+// event bus
+builder.Services.AddTransient<IEventBus, EventBus>();
 
 // generic repository
 builder.Services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
