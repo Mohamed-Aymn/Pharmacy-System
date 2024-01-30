@@ -6,7 +6,6 @@ using PharmacyService.Application.Receipts.CreateReceipt;
 using PharmacyService.Application.Receipts.ReturnReceipt;
 using PharmacyService.Contracts.Medicine;
 using PharmacyService.Contracts.Receipt;
-using PharmacyService.Domain.SharedKernel.ValueObjects;
 
 namespace PharmacyService.Api.MappingConfiguration;
 public class MappingConfig
