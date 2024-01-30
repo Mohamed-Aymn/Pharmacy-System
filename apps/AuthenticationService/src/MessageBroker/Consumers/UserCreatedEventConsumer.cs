@@ -1,7 +1,6 @@
-using AuthenticationService.Models;
 using AuthenticationService.Presistence;
-using ManagementService.MessageBroker.Events;
 using MassTransit;
+using SharedKernel.Events;
 
 namespace ManagementService.MessageBroker.Consumers;
 
@@ -18,12 +17,6 @@ public class UserCreatedEventConsumer : IConsumer<UserCreatedEvent>
 
   public Task Consume(ConsumeContext<UserCreatedEvent> context)
   {
-    // User user = new(
-    //   name: context.Message.Name,
-    //   email: context.Message.Email,
-    //   password: context.Message.Password
-    // );
-    // await _userRepository.Add(user);
 
     _logger.LogInformation("user added successfully");
 

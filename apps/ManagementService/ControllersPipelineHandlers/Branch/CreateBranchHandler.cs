@@ -2,8 +2,6 @@ using MapsterMapper;
 using MediatR;
 using ManagementService.Persistence;
 using ManagementService.Contracts.Branch.Create;
-using ManagementService.MessageBroker;
-using ManagementService.MessageBroker.Events;
 
 namespace ManagementService.ControllersPipelineHandlers.Branch;
 

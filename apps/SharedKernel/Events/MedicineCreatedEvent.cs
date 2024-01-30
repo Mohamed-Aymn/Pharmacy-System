@@ -1,4 +1,4 @@
-namespace PharmacyService.Application.Medicines.Common.Events;
+namespace SharedKernel.Events;
 
 public record MedicineCreatedEvent(
     string Name,

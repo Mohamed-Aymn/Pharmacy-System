@@ -1,4 +1,4 @@
-namespace ManagementService.MessageBroker.Events;
+namespace SharedKernel.Events;
 
 public record UserCreatedEvent(
     string Name,

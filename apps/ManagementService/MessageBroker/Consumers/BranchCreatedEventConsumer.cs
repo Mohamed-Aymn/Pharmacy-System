@@ -1,5 +1,5 @@
-using ManagementService.MessageBroker.Events;
 using MassTransit;
+using SharedKernel.Events;
 
 namespace ManagementService.MessageBroker.Consumers;
 

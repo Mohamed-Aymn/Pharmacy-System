@@ -3,7 +3,7 @@ using MediatR;
 using ManagementService.Persistence;
 using ManagementService.Contracts.Employee.Create;
 using ManagementService.MessageBroker;
-using ManagementService.MessageBroker.Events;
+using SharedKernel.Events;
 
 namespace ManagementService.ControllersPipelineHandlers.Employee;
 

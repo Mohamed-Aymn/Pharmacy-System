@@ -17,7 +17,6 @@ public class CreateReceiptHandler : IRequestHandler<CreateReceiptDto, ReceiptRes
 
   public async Task<ReceiptResult> Handle(CreateReceiptDto request, CancellationToken cancellationToken)
   {
-
     // trigger event here
 
     return new ReceiptResult();

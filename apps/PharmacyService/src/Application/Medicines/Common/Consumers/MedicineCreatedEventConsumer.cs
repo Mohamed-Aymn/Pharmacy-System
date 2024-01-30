@@ -1,6 +1,6 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using PharmacyService.Application.Medicines.Common.Events;
+using SharedKernel.Events;
 
 namespace PharmacyService.Application.Medicines.Common.Consumers;
 
