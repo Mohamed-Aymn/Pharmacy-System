@@ -1,13 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
-using MapsterMapper;
-using PharmacyService.Contracts.Medicine;
-using PharmacyService.Application.Medicines.Create;
-using PharmacyService.Application.Medicines.Search;
 using BranchService.Application.Medicines.DirectSearch;
+using MapsterMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using PharmacyService.Application.Medicines.BranchesSearch;
-using PharmacyService.Application.Medicines.SendBranchTransfer;
+using PharmacyService.Application.Medicines.Create;
 using PharmacyService.Application.Medicines.ReceiveBranchTransfer;
+using PharmacyService.Application.Medicines.Search;
+using PharmacyService.Application.Medicines.SendBranchTransfer;
+using PharmacyService.Contracts.Medicine;
 
 namespace PharmacyService.Api.Controllers;
 
