@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: management-service
+  name: authentication-mongodb
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: management-service
+      app: authentication-mongodb
   template:
     metadata:
       labels:
-        app: management-service
+        app: authentication-mongodb
     spec:
       containers:
-      - name: management-service
-        image: pharmacy-management-service
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 80
+      - name: authentication-mongodb
+        image: mongo
         resources:
           limits:
             cpu: "0.1"
-            memory: "512Mi"
+            memory: "128Mi"
           requests:
             cpu: "0.1"
             memory: "128Mi"
+        ports:
+        - containerPort: 27017

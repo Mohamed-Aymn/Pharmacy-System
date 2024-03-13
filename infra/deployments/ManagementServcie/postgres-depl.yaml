@@ -1,22 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: management-service
+  name: management-postgresdb
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: management-service
+      app: management-postgresdb
   template:
     metadata:
       labels:
-        app: management-service
+        app: management-postgresdb
     spec:
       containers:
-      - name: management-service
-        image: pharmacy-management-service
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 80
+      - name: management-postgresdb
+        image: postgres
         resources:
           limits:
             cpu: "0.1"
@@ -24,3 +22,8 @@ spec:
           requests:
             cpu: "0.1"
             memory: "128Mi"
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD 
+          value: "postgres*8"
