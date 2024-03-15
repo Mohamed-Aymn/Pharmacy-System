@@ -1,0 +1,25 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: pharmacy-service
+
+build:
+  # to make skaffold skip pushing images
+  local:
+    push: false
+  artifacts:
+    # syncronization of all images is done automatically here
+    - image: pharmacy-pharmacy-service 
+      docker:
+        dockerfile: ./PharmacyService.dockerfile
+    - image: pharmacy-management-service
+      docker:
+        dockerfile: ./ManagementService.dockerfile
+    - image: pharmacy-authentication-service
+      docker:
+        dockerfile: ./AuthenticationService.dockerfile
+
+deploy:
+  kubectl:
+    manifests:
+      - ../infra/*
