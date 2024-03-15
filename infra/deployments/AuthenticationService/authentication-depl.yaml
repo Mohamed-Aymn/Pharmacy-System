@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authenticaion-service
+  name: authenticaion-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: authenticaion-service
+      app: authenticaion-depl
   template:
     metadata:
       labels:
-        app: authenticaion-service
+        app: authenticaion-depl
     spec:
       containers:
-      - name: authenticaion-service
-        image: pharmacy-authentication-service
+      - name: authenticaion-depl
+        image: pharmacy-authentication-service 
         imagePullPolicy: Never
         ports:
         - containerPort: 80

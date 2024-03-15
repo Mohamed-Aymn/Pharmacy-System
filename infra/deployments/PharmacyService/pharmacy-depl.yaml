@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pharmacy-service
+  name: pharmacy-depl
 spec:
   selector:
     matchLabels:
-      app: pharmacy-service
+      app: pharmacy-depl
   template:
     metadata:
       labels:
-        app: pharmacy-service
+        app: pharmacy-depl
     spec:
       containers:
-      - name: pharmacy-service
+      - name: pharmacy-depl
         image: pharmacy-pharmacy-service
         imagePullPolicy: Never
         ports:

@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: management-service
+  name: management-depl
 spec:
   selector:
     matchLabels:
-      app: management-service
+      app: management-depl
   template:
     metadata:
       labels:
-        app: management-service
+        app: management-depl
     spec:
       containers:
-      - name: management-service
+      - name: management-depl
         image: pharmacy-management-service
         imagePullPolicy: Never
         ports:
